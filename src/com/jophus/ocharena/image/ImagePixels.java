@@ -2,20 +2,27 @@ package com.jophus.ocharena.image;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 public class ImagePixels {
+	
+	private static final Logger LOG = Logger.getLogger(ImagePixels.class.getName());
 
 	private int imgWidth;
 	private int imgHeight;
 	private int valueMax = 255;
 	private int[] pixels;
+	
+	public ImagePixels(int width, int height) {
+		this.pixels = new int[height * width];
+		this.imgWidth = width;
+		this.imgHeight = height;
+	}
 
 	public ImagePixels(String filename) {
 		File img = new File(filename);
@@ -23,6 +30,7 @@ public class ImagePixels {
 			loadPixels(img);
 		} catch (IOException e) {
 			e.printStackTrace();
+			LOG.log(Level.SEVERE, null, e);
 		}
 	}
 	
@@ -31,6 +39,7 @@ public class ImagePixels {
 			loadPixels(file);
 		} catch (IOException e) {
 			e.printStackTrace();
+			LOG.log(Level.SEVERE, null, e);
 		}
 	}
 
@@ -76,5 +85,47 @@ public class ImagePixels {
 			result[i] = pixels[y * this.imgWidth + i];
 		}
 		return result;
+	}
+	
+	public void setPixel(int x, int y, int val) {
+		pixels[y * this.imgWidth + x] = val;
+	}
+	
+	public void setPixel(int x, int y, Color color) {
+		pixels[y * this.imgWidth + x] = color.getRGB();
+	}
+	
+	public void setRow(int y, int[] vals) {
+		for (int x = 0; x < vals.length; x++) {
+			pixels[y * this.imgWidth + x] = vals[x];
+		}
+	}
+	
+	public BufferedImage getBImg() {
+		BufferedImage result = new BufferedImage(this.imgWidth, this.imgHeight, BufferedImage.TYPE_INT_RGB);
+		for (int y = 0; y < this.imgHeight; y++) {
+			for (int x = 0; x < this.imgWidth; x++) {
+				result.setRGB(x, y, pixels[y * this.imgWidth + x]);
+			}
+		}
+		return result;
+	}
+	
+	public ImagePixels getRowsAsNew(int[] y) {
+		ImagePixels result = new ImagePixels(this.imgWidth, y.length);
+		for (int i = 0; i < y.length; i++) {
+			result.setRow(i, this.getRow(y[i]));
+		}
+		return result;
+	}
+	
+	public void toGrayscale() {
+		for (int y = 0; y < this.imgHeight; y++) {
+			for (int x = 0; x < this.imgWidth; x++) {
+				Color color = new Color(pixels[y * this.imgWidth + x]);
+				int avg = (color.getRed() + color.getGreen() + color.getBlue()) / 3;
+				pixels[y * this.imgWidth + x] = (new Color(avg, avg, avg)).getRGB();
+			}
+		}
 	}
 }

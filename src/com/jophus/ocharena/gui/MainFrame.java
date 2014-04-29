@@ -23,8 +23,8 @@ public class MainFrame extends JFrame {
 
 	private void configureFrame() {
 
-		this.setSize(this.WIDTH, this.HEIGHT);
-		this.setMinimumSize(new Dimension(this.WIDTH, this.HEIGHT));
+		this.setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
+		this.setMinimumSize(new Dimension(MainFrame.WIDTH, MainFrame.HEIGHT));
 		this.setTitle("OChaReNA - Optical Character Recognition & Notation Application");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

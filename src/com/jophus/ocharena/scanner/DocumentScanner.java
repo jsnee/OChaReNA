@@ -1,7 +1,5 @@
 package com.jophus.ocharena.scanner;
 
-import java.util.ArrayList;
-
 import com.jophus.ocharena.image.ImagePixels;
 
 public class DocumentScanner {

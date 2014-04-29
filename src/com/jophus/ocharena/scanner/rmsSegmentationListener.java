@@ -1,7 +1,5 @@
 package com.jophus.ocharena.scanner;
 
-import java.util.ArrayList;
-
 import com.jophus.ocharena.image.ImagePixels;
 
 public class rmsSegmentationListener implements LineSegmentationListener {
@@ -34,7 +32,7 @@ public class rmsSegmentationListener implements LineSegmentationListener {
 			if (this.minVal > count) this.minVal = count;
 			if (this.maxVal < count) this.maxVal = count;
 		}
-		rms = (int) Math.sqrt((double)((this.minVal * this.minVal + this.maxVal * this.maxVal) / 2));
+		rms = (int) Math.sqrt((this.minVal * this.minVal + this.maxVal * this.maxVal) / 2);
 
 	}
 

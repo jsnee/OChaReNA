@@ -41,6 +41,7 @@ public class RectPixelPath extends PixelPath {
 		return new Point((int)path.getCenterX(), (int)path.getCenterY());
 	}
 	
+	@Override
 	public void translate(int dx, int dy) {
 		path.translate(dx, dy);
 	}

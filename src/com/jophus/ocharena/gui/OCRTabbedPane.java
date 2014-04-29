@@ -13,7 +13,7 @@ public class OCRTabbedPane extends JTabbedPane {
 		this.guiController = guiController;
 		
 		JPanel charTracer = new CharTracePanel(this.guiController);
-		this.add("Character Tracer", charTracer);
+		//this.add("Character Tracer", charTracer);
 		
 		JPanel lineTracer = new LineTracePanel(this.guiController);
 		this.add("Line Tracer", lineTracer);

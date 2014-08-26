@@ -25,7 +25,7 @@ public class rmsSegmentationListener implements LineSegmentationListener {
 		for (int row = y1; row < y2; row++) {
 			int count = 0;
 			for (int cell = x1; cell < x2; cell++) {
-				if (imagePixels.getPixel(cell, row) < this.threshold) {
+				if (imagePixels.getPixelValueByCoordinate(cell, row) < this.threshold) {
 					count++;
 				}
 			}
@@ -42,7 +42,7 @@ public class rmsSegmentationListener implements LineSegmentationListener {
 
 		int count = 0;
 		for (int cell = x1; cell < x2; cell++) {
-			if (imagePixels.getPixel(cell, index) < this.threshold) {
+			if (imagePixels.getPixelValueByCoordinate(cell, index) < this.threshold) {
 				count++;
 			}
 		}

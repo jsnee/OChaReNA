@@ -30,8 +30,8 @@ public class LineTracer {
 		LOG.entering(this.getClass().toString(), "getTracedImage()");
 		ImagePixels img = new ImagePixels(this.filename);
 		if (this.grayscale)
-			img.toGrayscale();
-		boolean[] isLine = new boolean[img.getHeight()];
+			img.convertPixelsToGrayscale();
+		boolean[] isLine = new boolean[img.getImageHeight()];
 		this.threshold = this.thresholdInit;
 		double diff = getRMS() / getMinMaxRMS();
 		LOG.fine("Diff: " + diff);
@@ -43,9 +43,9 @@ public class LineTracer {
 		double rms = getRMS();
 		LOG.fine("RMS Min-Max: " + getMinMaxRMS());
 		LOG.fine("Root-Mean-Square: " + rms);
-		LOG.fine("Max Possible: " + img.getWidth());
-		for (int y = 0; y < img.getHeight(); y++) {
-			int[] row = img.getRow(y);
+		LOG.fine("Max Possible: " + img.getImageWidth());
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
 				if (getStdLum(each) < (this.threshold2 * this.maxLum) || getCombinedRGB(each) < (this.threshold2 * this.maxCombRGB))
@@ -59,14 +59,14 @@ public class LineTracer {
 		isLine = includeOutlyingMarks(isLine, img);
 
 		int highlight = (new Color(255, 0, 255)).getRGB();
-		for (int y = 0; y < img.getHeight(); y++) {
+		for (int y = 0; y < img.getImageHeight(); y++) {
 			if (isLine[y]) {
 				img.setPixel(0, y, highlight);
-				img.setPixel(img.getWidth() - 1, y, highlight);
-			} else if ((y != 0 && y != img.getHeight() - 1) && (isLine[y - 1] || isLine[y + 1])) {
-				int[] row = new int[img.getWidth()];
+				img.setPixel(img.getImageWidth() - 1, y, highlight);
+			} else if ((y != 0 && y != img.getImageHeight() - 1) && (isLine[y - 1] || isLine[y + 1])) {
+				int[] row = new int[img.getImageWidth()];
 				Arrays.fill(row, highlight);
-				img.setRow(y, row);
+				img.setRowPixelValues(y, row);
 			}
 		}
 		int ctLines = 0;
@@ -76,14 +76,14 @@ public class LineTracer {
 		}
 		LOG.fine(ctLines + " lines detected in the scanned image.");
 
-		return img.getBImg();
+		return img.getImageAsBufferedImage();
 	}
 	
 	public boolean[] segmentLines() {
 		ImagePixels img = new ImagePixels(this.filename);
 		if (this.grayscale)
-			img.toGrayscale();
-		boolean[] isLine = new boolean[img.getHeight()];
+			img.convertPixelsToGrayscale();
+		boolean[] isLine = new boolean[img.getImageHeight()];
 		this.threshold = this.thresholdInit;
 		double diff = getRMS() / getMinMaxRMS();
 		LOG.fine("Diff: " + diff);
@@ -95,9 +95,9 @@ public class LineTracer {
 		double rms = getRMS();
 		LOG.fine("RMS Min-Max: " + getMinMaxRMS());
 		LOG.fine("Root-Mean-Square: " + rms);
-		LOG.fine("Max Possible: " + img.getWidth());
-		for (int y = 0; y < img.getHeight(); y++) {
-			int[] row = img.getRow(y);
+		LOG.fine("Max Possible: " + img.getImageWidth());
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
 				if (getStdLum(each) < (this.threshold2 * this.maxLum) || getCombinedRGB(each) < (this.threshold2 * this.maxCombRGB))
@@ -118,15 +118,15 @@ public class LineTracer {
 		for (int i = 1; i < data.length - 1; i++) {
 			if (i == 0) { continue; }
 			if (data[i] && !data[i-1]) { // If beginning of line
-				for (int x = 0; x < img.getWidth(); x++) { // Cycle through pixels above top of line
-					if (getStdLum(img.getPixel(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixel(x, i-1)) < (this.threshold2 * this.maxLum)) {
+				for (int x = 0; x < img.getImageWidth(); x++) { // Cycle through pixels above top of line
+					if (getStdLum(img.getPixelValueByCoordinate(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixelValueByCoordinate(x, i-1)) < (this.threshold2 * this.maxLum)) {
 						data[i-1] = true;
 						i-=2;
 					}
 				}
 			} else if (data[i] && !data[i+1]) { // If end of line
-				for (int x = 0; x < img.getWidth(); x++) { // Cycle through pixels below bottom of line
-					if (getStdLum(img.getPixel(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixel(x, i+1)) < (this.threshold2 * this.maxLum)) {
+				for (int x = 0; x < img.getImageWidth(); x++) { // Cycle through pixels below bottom of line
+					if (getStdLum(img.getPixelValueByCoordinate(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixelValueByCoordinate(x, i+1)) < (this.threshold2 * this.maxLum)) {
 						data[i+1] = true;
 					}
 				}
@@ -217,8 +217,8 @@ public class LineTracer {
 	public BufferedImage getStdPixelLum() {
 		ImagePixels img = new ImagePixels(this.filename);
 		int highlight = (new Color(255, 0, 255)).getRGB();
-		for (int y = 0; y < img.getHeight(); y++) {
-			int[] row = img.getRow(y);
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
 				if (getStdLum(each) < (this.threshold * this.maxLum))
@@ -230,14 +230,14 @@ public class LineTracer {
 
 		}
 
-		return img.getBImg();
+		return img.getImageAsBufferedImage();
 	}
 
 	public BufferedImage getPerPixelLum() {
 		ImagePixels img = new ImagePixels(this.filename);
 		int highlight = (new Color(255, 0, 255)).getRGB();
-		for (int y = 0; y < img.getHeight(); y++) {
-			int[] row = img.getRow(y);
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
 				if (getPerLum(each) < (this.threshold * this.maxLum))
@@ -249,14 +249,14 @@ public class LineTracer {
 
 		}
 
-		return img.getBImg();
+		return img.getImageAsBufferedImage();
 	}
 
 	public BufferedImage getPixelCount() {
 		ImagePixels img = new ImagePixels(this.filename);
 		int highlight = (new Color(255, 0, 255)).getRGB();
-		for (int y = 0; y < img.getHeight(); y++) {
-			int[] row = img.getRow(y);
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
 				if (getCombinedRGB(each) < (this.threshold * this.maxCombRGB))
@@ -268,17 +268,17 @@ public class LineTracer {
 
 		}
 
-		return img.getBImg();
+		return img.getImageAsBufferedImage();
 	}
 
 	public double getMinMaxRMS() {
 		ImagePixels img = new ImagePixels(this.filename);
 		if (this.grayscale)
-			img.toGrayscale();
+			img.convertPixelsToGrayscale();
 		int max = 0;
-		int min = img.getWidth();
-		for (int y = 0; y < img.getHeight(); y++) {
-			int[] row = img.getRow(y);
+		int min = img.getImageWidth();
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
 				if (getStdLum(each) < (this.threshold * this.maxLum))
@@ -297,23 +297,23 @@ public class LineTracer {
 		ImagePixels img = new ImagePixels(this.filename);
 		int fullCt = 0;
 		if (this.grayscale)
-			img.toGrayscale();
+			img.convertPixelsToGrayscale();
 		double total = 0;
-		for (int y = 0; y < img.getHeight(); y++) {
-			int[] row = img.getRow(y);
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
 				if (getStdLum(each) < (this.threshold * this.maxLum))
 					count++;
 			}
-			if (count == img.getWidth()) {
+			if (count == img.getImageWidth()) {
 				fullCt++;
 				continue;
 			}
 			total += Math.pow(count, 2.0d);
 		}
 
-		return Math.sqrt(total / (img.getHeight() - fullCt));
+		return Math.sqrt(total / (img.getImageHeight() - fullCt));
 	}
 	
 	public boolean checkLinedPaperRow(int[] row) {

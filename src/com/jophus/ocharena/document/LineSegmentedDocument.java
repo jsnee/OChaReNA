@@ -70,7 +70,7 @@ public class LineSegmentedDocument {
 			}
 		}
 		LOG.finer("Writing Archives");
-		doc.addDirToArchive(dir);
+		doc.addDirectoryToArchive(dir);
 		JophIOUtils.deleteFiles(dir);
 	}
 

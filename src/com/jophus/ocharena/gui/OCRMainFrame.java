@@ -8,13 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-public class MainFrame extends JFrame {
+public class OCRMainFrame extends JFrame {
 	
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 700;
 	private final GUIController guiController;
 
-	public MainFrame(GUIController guiController)
+	public OCRMainFrame(GUIController guiController)
 	{
 		this.guiController = guiController;
 		configureFrame();
@@ -23,8 +23,8 @@ public class MainFrame extends JFrame {
 
 	private void configureFrame() {
 
-		this.setSize(MainFrame.WIDTH, MainFrame.HEIGHT);
-		this.setMinimumSize(new Dimension(MainFrame.WIDTH, MainFrame.HEIGHT));
+		this.setSize(OCRMainFrame.WIDTH, OCRMainFrame.HEIGHT);
+		this.setMinimumSize(new Dimension(OCRMainFrame.WIDTH, OCRMainFrame.HEIGHT));
 		this.setTitle("OChaReNA - Optical Character Recognition & Notation Application");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -43,5 +43,5 @@ public class MainFrame extends JFrame {
 		this.add(panel);
 		
 	}
-    private static final Logger LOG = Logger.getLogger(MainFrame.class.getName());
+    private static final Logger LOG = Logger.getLogger(OCRMainFrame.class.getName());
 }

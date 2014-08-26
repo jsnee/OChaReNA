@@ -25,12 +25,12 @@ public class ImageHighlight {
 	}
 	
 	public int[] outlineRect(Rectangle rect, int lineWeight) {
-		int[] pixels = img.getPixels();
+		int[] pixels = img.getPixelValues();
 		Rectangle innerFrame = new Rectangle(rect.x + lineWeight, rect.y + lineWeight, rect.width - (2 * lineWeight), rect.height - (2 * lineWeight));
-		for (int y = 0; y < img.getHeight(); y++) {
-			for (int x = 0; x < img.getWidth(); x++) {
+		for (int y = 0; y < img.getImageHeight(); y++) {
+			for (int x = 0; x < img.getImageWidth(); x++) {
 				if (rect.contains(x, y) && !innerFrame.contains(x, y)) {
-					pixels[y * img.getWidth() + x] = this.color;
+					pixels[y * img.getImageWidth() + x] = this.color;
 				}
 			}
 		}

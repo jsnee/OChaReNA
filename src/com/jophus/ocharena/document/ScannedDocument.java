@@ -19,81 +19,58 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import com.jophus.ocharena.Ocharena;
-import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.image.ImagePixels;
-import com.jophus.util.JophFileUtils;
 import com.jophus.util.JophIOUtils;
 
 public class ScannedDocument {
 
-	private ImagePixels documentPixelData;
+	protected ImagePixels doc;
 	//protected Path zipFile;
-	protected String filepath;
-	protected File archivedOCRDocumentFile;
+	protected String filename;
+	protected File zip;
 
 	/**
 	 * Constructor creates the zipped file containing the document and adds the original image to the archive
-	 * @param fullFilepath The path of the file to be read.
+	 * @param filename The path of the file to be read.
 	 */
-	public ScannedDocument(String fullFilepath) {
-		this.filepath = fullFilepath;
-		File originalImageFile = new File(fullFilepath);
-		if (originalImageFile.exists()) {
-			this.documentPixelData = new ImagePixels(originalImageFile);
-			createAndInitializeDocumentArchive(originalImageFile);
+	public ScannedDocument(String filename) {
+		this.filename = filename;
+		File imageFile = new File(filename);
+		if (imageFile.exists()) {
+			this.doc = new ImagePixels(imageFile);
+			createDocumentArchive(imageFile);
 		} else {
-			documentPixelData = null;
+			doc = null;
 		}
 	}
 
 	/**
 	 * Method that initializes the document archive file
 	 * 
-	 * @param originalImageFile
+	 * @param imageFile
 	 */
-	private void createAndInitializeDocumentArchive(File originalImageFile) {
+	private void createDocumentArchive(File imageFile) {
 		try {
-			createUniqueDocumentArchiveFile(JophFileUtils.getBaseNameOfFile(originalImageFile));
-			zipArchiveOriginalDocumentImage(originalImageFile);
-			LOG.fine("File is at: " + archivedOCRDocumentFile.getAbsolutePath());
+			File dir = new File("ScannedDocuments" + File.separator);
+			dir.mkdirs();
+			zip = new File(dir + File.separator + imageFile.getName() + ".zip");
+			if (zip.exists()) {
+				zip = File.createTempFile(imageFile.getName(), ".zip", dir);
+			} else {
+				zip.createNewFile();
+			}
+			if (zip.exists()) {
+				ZipArchiveOutputStream zipOut = new ZipArchiveOutputStream(zip);
+				zipOut.putArchiveEntry(zipOut.createArchiveEntry(imageFile, "image." + FilenameUtils.getExtension(imageFile.getName())));
+				zipOut.write(Files.readAllBytes(Paths.get(imageFile.toURI())));
+				zipOut.closeArchiveEntry();
+				zipOut.close();
+				LOG.fine("File is at: " + zip.getAbsolutePath());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOG.log(Level.SEVERE, null, e);
 		}
-	}
-
-	private void createUniqueDocumentArchiveFile(String originalImageFilename) throws IOException {
-		archivedOCRDocumentFile = new File(getRelativePathnameWithExtension(generateUniqueArchiveFilename(originalImageFilename)));
-		archivedOCRDocumentFile.createNewFile();
-	}
-
-	private String generateUniqueArchiveFilename(String originalImageFilename) {
-		String attemptedArchiveFilename = originalImageFilename;
-
-		while (archiveNameIsNotUnique(attemptedArchiveFilename)) {
-			attemptedArchiveFilename = generateTimestampArchiveFilename(originalImageFilename);
-		}
-		return attemptedArchiveFilename;
-	}
-
-	private boolean archiveNameIsNotUnique(String filenameWithoutExtension) {
-		return new File(getRelativePathnameWithExtension(filenameWithoutExtension)).exists();
-	}
-
-	private String generateTimestampArchiveFilename(String originalImageFilename) {
-		return originalImageFilename + System.currentTimeMillis();
-	}
-
-	private static String getRelativePathnameWithExtension(String filename) {
-		return OcharenaSettings.defaultWorkingDirectoryPath + filename + OcharenaSettings.ARCHIVE_FILETYPE_EXTENSION;
-	}
-
-	private void zipArchiveOriginalDocumentImage(File originalImageFile) throws IOException {
-		ZipArchiveOutputStream archiveOutputStream = new ZipArchiveOutputStream(archivedOCRDocumentFile);
-		archiveOutputStream.putArchiveEntry(archiveOutputStream.createArchiveEntry(originalImageFile, "image." + JophFileUtils.getExtensionOfFile(originalImageFile)));
-		archiveOutputStream.write(Files.readAllBytes(Paths.get(originalImageFile.toURI())));
-		archiveOutputStream.closeArchiveEntry();
-		archiveOutputStream.close();
 	}
 
 	/**
@@ -101,35 +78,35 @@ public class ScannedDocument {
 	 * 
 	 * @return returns the currently stored image of the document
 	 */
-	public BufferedImage getDocumentPixelDataImage() {
-		return documentPixelData.getImageAsBufferedImage();
+	public BufferedImage getImage() {
+		return doc.getBImg();
 	}
 
 	/**
 	 * Method that adds all of the files in designated directory to the document archive
 	 * 
-	 * @param targetDirectory Path of directory containing files to read
+	 * @param dir Path of directory containing files to read
 	 */
-	public void addDirectoryToArchive(File targetDirectory) {
-		if (targetDirectory.isDirectory()) {
+	public void addDirToArchive(File dir) {
+		if (dir.isDirectory()) {
 			File outputDir = new File("unzipTEMP" + File.separator);
 			try {
-				ZipFile zFile = new ZipFile(archivedOCRDocumentFile);
+				ZipFile zFile = new ZipFile(zip);
 
 				outputDir.deleteOnExit();
 
 				for (Enumeration<ZipArchiveEntry> entries = zFile.getEntries(); entries.hasMoreElements();) {
 
-					ZipArchiveEntry archiveEntry = entries.nextElement();
-					unzipEntry(zFile, archiveEntry, outputDir);
+					ZipArchiveEntry ae = entries.nextElement();
+					unzipEntry(zFile, ae, outputDir);
 				}
 
-				ZipArchiveOutputStream zipOut = new ZipArchiveOutputStream(archivedOCRDocumentFile);
+				ZipArchiveOutputStream zipOut = new ZipArchiveOutputStream(zip);
 
 				for (File each : outputDir.listFiles()) {
 					addFileToZip(zipOut, each.getAbsolutePath(), "");
 				}
-				addFileToZip(zipOut, targetDirectory.getAbsolutePath(), "");
+				addFileToZip(zipOut, dir.getAbsolutePath(), "");
 
 				zipOut.close();
 				zFile.close();
@@ -194,9 +171,9 @@ public class ScannedDocument {
 			}
 		}
 	}
-
+	
 	public ImagePixels getImagePixels() {
-		return this.documentPixelData;
+		return this.doc;
 	}
 
 	private static Logger LOG = Logger.getLogger(ScannedDocument.class.getName());

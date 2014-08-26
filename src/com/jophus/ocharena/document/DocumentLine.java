@@ -11,12 +11,12 @@ public class DocumentLine {
 	private ImagePixels pixels;
 	
 	public DocumentLine(ImagePixels img, int[] rows) {
-		this.line = new DocumentSegment(new Rectangle(0, rows[0], img.getImageWidth(), rows[rows.length - 1] - rows[0]));
-		pixels = img.getRowsAsSubimage(rows);
+		this.line = new DocumentSegment(new Rectangle(0, rows[0], img.getWidth(), rows[rows.length - 1] - rows[0]));
+		pixels = img.getRowsAsNew(rows);
 	}
 	
 	public BufferedImage getLineImage() {
-		return pixels.getImageAsBufferedImage();
+		return pixels.getBImg();
 	}
 	
 	public ImagePixels getLinePixels() {

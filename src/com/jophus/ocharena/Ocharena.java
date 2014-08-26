@@ -1,6 +1,5 @@
 package com.jophus.ocharena;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,13 +26,8 @@ public class Ocharena {
 			System.err.println("Error Loading Log File");
 		}
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		
-		OcharenaSettings.createDefaultWorkingDirectoryUnlessExists();
-		
 		GUIController guiController = new GUIController();
 		guiController.showGUI();
 	}
-	
-
 
 }

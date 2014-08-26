@@ -15,7 +15,7 @@ public class ImagePixels {
 
 	private int imgWidth;
 	private int imgHeight;
-	private int maxPixelValue = 255;
+	private int valueMax = 255;
 	private int[] pixels;
 	
 	public ImagePixels(int width, int height) {
@@ -27,7 +27,7 @@ public class ImagePixels {
 	public ImagePixels(String filename) {
 		File img = new File(filename);
 		try {
-			loadPixelsFromFile(img);
+			loadPixels(img);
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOG.log(Level.SEVERE, null, e);
@@ -36,14 +36,14 @@ public class ImagePixels {
 	
 	public ImagePixels(File file) {
 		try {
-			loadPixelsFromFile(file);
+			loadPixels(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOG.log(Level.SEVERE, null, e);
 		}
 	}
 
-	public void loadPixelsFromFile(File img) throws IOException {
+	public void loadPixels(File img) throws IOException {
 		String filename = img.getAbsolutePath();
 		if (filename.endsWith(".png") || filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
 			BufferedImage bimg = ImageIO.read(new File(filename));
@@ -59,30 +59,30 @@ public class ImagePixels {
 		}
 	}
 	
-	public int[] getPixelValues() {
+	public int[] getPixels() {
 		return this.pixels;
 	}
 	
-	public int getImageWidth() {
+	public int getWidth() {
 		return this.imgWidth;
 	}
 	
-	public int getImageHeight() {
+	public int getHeight() {
 		return this.imgHeight;
 	}
 	
-	public int getMaxPixelValue() {
-		return this.maxPixelValue;
+	public int getMaxValue() {
+		return this.valueMax;
 	}
 	
-	public int getPixelValueByCoordinate(int x, int y) {
+	public int getPixel(int x, int y) {
 		return pixels[y * this.imgWidth + x];
 	}
 	
-	public int[] getPixelRow(int yIndex) {
+	public int[] getRow(int y) {
 		int[] result = new int[this.imgWidth];
 		for (int i = 0; i < this.imgWidth; i++) {
-			result[i] = pixels[yIndex * this.imgWidth + i];
+			result[i] = pixels[y * this.imgWidth + i];
 		}
 		return result;
 	}
@@ -95,13 +95,13 @@ public class ImagePixels {
 		pixels[y * this.imgWidth + x] = color.getRGB();
 	}
 	
-	public void setRowPixelValues(int yIndex, int[] rowPixelValues) {
-		for (int x = 0; x < rowPixelValues.length; x++) {
-			pixels[yIndex * this.imgWidth + x] = rowPixelValues[x];
+	public void setRow(int y, int[] vals) {
+		for (int x = 0; x < vals.length; x++) {
+			pixels[y * this.imgWidth + x] = vals[x];
 		}
 	}
 	
-	public BufferedImage getImageAsBufferedImage() {
+	public BufferedImage getBImg() {
 		BufferedImage result = new BufferedImage(this.imgWidth, this.imgHeight, BufferedImage.TYPE_INT_RGB);
 		for (int y = 0; y < this.imgHeight; y++) {
 			for (int x = 0; x < this.imgWidth; x++) {
@@ -111,15 +111,15 @@ public class ImagePixels {
 		return result;
 	}
 	
-	public ImagePixels getRowsAsSubimage(int[] yIndex) {
-		ImagePixels result = new ImagePixels(this.imgWidth, yIndex.length);
-		for (int i = 0; i < yIndex.length; i++) {
-			result.setRowPixelValues(i, this.getPixelRow(yIndex[i]));
+	public ImagePixels getRowsAsNew(int[] y) {
+		ImagePixels result = new ImagePixels(this.imgWidth, y.length);
+		for (int i = 0; i < y.length; i++) {
+			result.setRow(i, this.getRow(y[i]));
 		}
 		return result;
 	}
 	
-	public void convertPixelsToGrayscale() {
+	public void toGrayscale() {
 		for (int y = 0; y < this.imgHeight; y++) {
 			for (int x = 0; x < this.imgWidth; x++) {
 				Color color = new Color(pixels[y * this.imgWidth + x]);

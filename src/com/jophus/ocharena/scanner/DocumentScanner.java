@@ -14,16 +14,16 @@ public class DocumentScanner {
 
 		if(chunkX1 < 0) {
 			chunkX1 = 0;
-		} else if(chunkX1 >= imagePixels.getImageWidth()) {
-			chunkX1 = imagePixels.getImageWidth() - 1;
+		} else if(chunkX1 >= imagePixels.getWidth()) {
+			chunkX1 = imagePixels.getWidth() - 1;
 		}
 		if(chunkY1 < 0) {
 			chunkY1 = 0;
-		} else if(chunkY1 >= imagePixels.getImageHeight()) {
-			chunkY1 = imagePixels.getImageHeight() - 1;
+		} else if(chunkY1 >= imagePixels.getHeight()) {
+			chunkY1 = imagePixels.getHeight() - 1;
 		}
-		if(chunkX2 <= 0 || chunkX2 <= imagePixels.getImageWidth()) chunkX2 = imagePixels.getImageWidth() - 1;
-		if(chunkY2 <= 0 || chunkY2 <= imagePixels.getImageHeight()) chunkY2 = imagePixels.getImageHeight() - 1;
+		if(chunkX2 <= 0 || chunkX2 <= imagePixels.getWidth()) chunkX2 = imagePixels.getWidth() - 1;
+		if(chunkY2 <= 0 || chunkY2 <= imagePixels.getHeight()) chunkY2 = imagePixels.getHeight() - 1;
 		
 		chunkX2++;
 		chunkY2++;

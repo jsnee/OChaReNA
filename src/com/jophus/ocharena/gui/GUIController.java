@@ -19,13 +19,13 @@ public class GUIController {
 	
 	private static final Logger LOG = Logger.getLogger(GUIController.class.getName());
 
-	private OCRMainFrame mainFrame;
+	private MainFrame mainFrame;
 	private ScannedDocument doc;
 
 	public GUIController()
 	{
 		setLookAndFeel();
-		mainFrame = new OCRMainFrame(this);
+		mainFrame = new MainFrame(this);
 	}
 
 	public void setLookAndFeel()

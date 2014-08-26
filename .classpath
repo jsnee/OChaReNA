@@ -8,6 +8,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-Math3-3.2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Weka-3.7.10"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-Compress-1.6"/>
@@ -31,6 +32,15 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-IO"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-Math"/>
 >>>>>>> origin/master
+=======
+	<classpathentry kind="lib" path="C:/workspace/OChaReNA/lib/learnct_v0.3.jar"/>
+	<classpathentry kind="lib" path="C:/workspace/OChaReNA/lib/jipt.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-Math3-3.2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Weka-3.7.10"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-Compress-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-IO-2.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache-Commons-Lang3-3.1"/>
+>>>>>>> parent of 768cc10... Cleaned up code and added utility class
 =======
 	<classpathentry kind="lib" path="C:/workspace/OChaReNA/lib/learnct_v0.3.jar"/>
 	<classpathentry kind="lib" path="C:/workspace/OChaReNA/lib/jipt.jar"/>

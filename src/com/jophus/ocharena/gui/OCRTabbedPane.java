@@ -6,7 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class OCRTabbedPane extends JTabbedPane {
-	
+
+    private static final Logger LOG = Logger.getLogger(OCRTabbedPane.class.getName());
+    
 	private final GUIController guiController;
 
 	public OCRTabbedPane(GUIController guiController) {
@@ -18,6 +20,4 @@ public class OCRTabbedPane extends JTabbedPane {
 		JPanel lineTracer = new LineTracePanel(this.guiController);
 		this.add("Line Tracer", lineTracer);
 	}
-    private static final Logger LOG = Logger.getLogger(OCRTabbedPane.class.getName());
-
 }

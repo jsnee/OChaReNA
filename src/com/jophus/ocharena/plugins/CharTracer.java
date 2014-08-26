@@ -20,7 +20,7 @@ public class CharTracer {
 		
 		BufferedImage bImg;
 		
-		return bImg;
+		return new BufferedImage(0, 0, 0);
 	}
 	
 	public void segmentChars() {

@@ -13,8 +13,12 @@ public class JophFileUtils {
 		return FilenameUtils.getBaseName(targetFile.getName());
 	}
 	
+	public static String getFullPathOfFile(File targetFile) {
+		return FilenameUtils.getFullPath(targetFile.getName());
+	}
+	
 	public static String getExtensionOfFile(File targetFile) {
-		return FilenameUtils.getBaseName(targetFile.getName());
+		return "." + FilenameUtils.getExtension(targetFile.getName());
 	}
 
 }

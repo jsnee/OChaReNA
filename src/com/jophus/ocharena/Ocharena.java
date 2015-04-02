@@ -2,10 +2,7 @@ package com.jophus.ocharena;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.opencv.core.Core;
 
 import com.jophus.ocharena.gui.GUIController;
 import com.jophus.ocharena.logging.JophLogger;
@@ -23,13 +20,9 @@ public class Ocharena {
 		try {
 			JophLogger.setup();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.err.println("Error Loading Log File");
 		}
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		
-		OcharenaSettings.createDefaultWorkingDirectoryUnlessExists();
-		
 		GUIController guiController = new GUIController();
 		guiController.showGUI();
 	}

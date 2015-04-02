@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface OCRDocumentHandler {
 	
-	void loadArchivedDocumentFromFile(File archivedDocument);
+	void loadArchivedDocumentFromFile(String archivedDocumentFilepath);
 	
 	
 

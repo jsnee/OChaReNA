@@ -1,7 +1,10 @@
 # Temp Files
 *~
 
+data/
 bin/
 .classpath
 *.classpath
 *.png
+*.och
+*.jpg

@@ -38,11 +38,11 @@ public class OCHFile {
 			ochFile = new File(filename);
 		}
 	}
-	
+
 	public void deleteFile() {
 		ochFile.delete();
 	}
-	
+
 	public ImagePixels extractImagePixels(MasterSegmentHeader masterHeader) {
 		return extractImagePixels(masterHeader, false);
 	}
@@ -77,7 +77,7 @@ public class OCHFile {
 	public static boolean isValidOCHDocumentFile(String ochFilename) {
 		return (hasOCHFileExtension(ochFilename) && fileExists(ochFilename));
 	}
-	
+
 	public static boolean isValidImageFile(String imageFilename) {
 		String extension = "." + FilenameUtils.getExtension(imageFilename);
 		return (extension.equalsIgnoreCase(".jpg") || extension.equalsIgnoreCase(".jpeg") || extension.equalsIgnoreCase(".png"));
@@ -133,7 +133,7 @@ public class OCHFile {
 			inputStream.close();
 		}
 	}
-	
+
 	public void addFileToArchive(ZipArchiveOutputStream zipOut, String path, String base) throws IOException {
 		File f = new File(path);
 		String entryName = base + f.getName();
@@ -157,7 +157,64 @@ public class OCHFile {
 			}
 		}
 	}
-	
+
+	public void addFileToArchive(ZipArchiveOutputStream zipOut, File file, String archiveEntryname) throws IOException {
+		ZipArchiveEntry zEntry = new ZipArchiveEntry(file, archiveEntryname);
+
+		zipOut.putArchiveEntry(zEntry);
+
+		if (file.isFile()) {
+			logger.finer("Writing file to archive: " + file.getName());
+			zipOut.write(Files.readAllBytes(Paths.get(file.toURI())));
+			zipOut.closeArchiveEntry();
+		} else {
+			logger.finer("Writing directory to archive: " + file.getName());
+			zipOut.closeArchiveEntry();
+			File[] children = file.listFiles();
+
+			if (children != null) {
+				for (File child : children) {
+					addFileToArchive(zipOut, child.getAbsolutePath(), archiveEntryname + File.separator);
+				}
+			}
+		}
+	}
+
+	public void addFileToArchive(File file, String archiveEntryname) {
+		if (file.exists()) {
+			File outputDir = new File("unzipTEMP" + File.separator);
+			try {
+				ZipFile zFile = new ZipFile(ochFile);
+
+				outputDir.deleteOnExit();
+
+				for (Enumeration<ZipArchiveEntry> entries = zFile.getEntries(); entries.hasMoreElements();) {
+
+					ZipArchiveEntry archiveEntry = entries.nextElement();
+					unzipEntry(zFile, archiveEntry, outputDir);
+				}
+
+				ZipArchiveOutputStream zipOut = new ZipArchiveOutputStream(ochFile);
+
+				for (File each : outputDir.listFiles()) {
+					addFileToArchive(zipOut, each.getAbsolutePath(), "");
+				}
+				addFileToArchive(zipOut, file, archiveEntryname);
+
+				zipOut.close();
+				zFile.close();
+
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				logger.log(Level.SEVERE, null, e);
+			} finally {
+				JophIOUtils.deleteFiles(outputDir);
+			}
+
+		}
+	}
+
 	/**
 	 * Method that adds all of the files in designated directory to the document archive
 	 * 

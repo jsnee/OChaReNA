@@ -1,5 +1,9 @@
 package com.jophus.ocharena.plugins;
 
+import ij.ImagePlus;
+import ij.plugin.JpegWriter;
+import ij.process.ImageProcessor;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +12,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+
+import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.document.LineSegmentedDocument;
 import com.jophus.ocharena.document.OCHDocument;
 import com.jophus.ocharena.document.OCHFile;
@@ -21,6 +28,7 @@ public class LineTracer {
 	private static final Logger LOG = Logger.getLogger(LineTracer.class.getName());
 
 	private String filename;
+	private String imageFilename;
 	private final double thresholdInit = 0.82;
 	private double threshold = 0.82;//0.8169934641;
 	private double threshold2 = threshold;
@@ -29,13 +37,14 @@ public class LineTracer {
 	private int minLineHeight = 10;
 	private boolean grayscale = false;
 	private ImagePixels imagePixels;
-	private boolean muteBlue = true;
+	private boolean muteBlue = false;
 
 	public LineTracer(String filename) {
 		if (OCHFile.isValidOCHDocumentFile(filename)) {
 			this.filename = filename;
 		} else {
 			try {
+				imageFilename = filename;
 				File ochFile = OCHFileFactory.buildOCHFromImage(filename);
 				this.filename = ochFile.getAbsolutePath();
 			} catch (FileNotFoundException e) {
@@ -54,6 +63,7 @@ public class LineTracer {
 			this.filename = filename;
 		} else {
 			try {
+				imageFilename = filename;
 				File ochFile = OCHFileFactory.buildOCHFromImage(filename);
 				this.filename = ochFile.getAbsolutePath();
 			} catch (FileNotFoundException e) {
@@ -64,6 +74,43 @@ public class LineTracer {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public boolean[] identifyLines() {
+		LOG.entering(this.getClass().toString(), "identifyLines()");
+		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		imagePixels = ochDocument.getImagePixels();
+		DocumentMetadata metadata = new DocumentMetadata();
+		boolean[] isLine = new boolean[imagePixels.getImageHeight()];
+		this.threshold = this.thresholdInit;
+		double diff = getRMS() / getMinMaxRMS();
+		LOG.fine("Diff: " + diff);
+		this.threshold = 1 - diff;
+		this.threshold2 = 1 - diff/2;
+		LOG.fine("Thresholds:");
+		LOG.fine("\tThreshold 1 = " + this.threshold);
+		LOG.fine("\tThreshold 2 = " + this.threshold2);
+		double rms = getRMS();
+		LOG.fine("RMS Min-Max: " + getMinMaxRMS());
+		LOG.fine("Root-Mean-Square: " + rms);
+		LOG.fine("Max Possible: " + imagePixels.getImageWidth());
+		for (int y = 0; y < imagePixels.getImageHeight(); y++) {
+			int[] row = imagePixels.getPixelRow(y);
+			int count = 0;
+			for (int each : row) {
+				if (getStdLum(each) < (this.threshold2 * this.maxLum) || getCombinedRGB(each) < (this.threshold2 * this.maxCombRGB))
+					count++;
+			}
+
+			isLine[y] = ((count >= rms) ? true:false);
+		}
+
+		isLine = includeOutlyingMarks(isLine, imagePixels);
+		isLine = normalizeLines(isLine);
+		isLine = segmentLines();
+		minLineHeight = maxLineHeight(isLine);
+		isLine = normalizeLines(isLine);
+		return isLine;
 	}
 	
 	public BufferedImage getSegmentedImage() {
@@ -102,9 +149,9 @@ public class LineTracer {
 		}
 
 		isLine = includeOutlyingMarks(isLine, imagePixels);
-		//isLine = normalizeLines(isLine);
-		//isLine = segmentLines();
-		//minLineHeight = maxLineHeight(isLine);
+		isLine = normalizeLines(isLine);
+		isLine = segmentLines();
+		minLineHeight = maxLineHeight(isLine);
 		isLine = normalizeLines(isLine);
 
 		ochDocument = new OCHDocument(filename, false);
@@ -130,11 +177,76 @@ public class LineTracer {
 
 		return imagePixels.getImageAsBufferedImage();
 	}
+	
+	public BufferedImage histogramTracing() {
+		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		imagePixels = ochDocument.getImagePixels();
+
+		int[] whitePixels = generateLineHistogram();
+		double variance = 0.0d;
+		for (int each : whitePixels) variance += Math.pow(each, 2.0d);
+		double stdDev = Math.sqrt(variance / whitePixels.length);
+		System.out.println("Standard Deviation: " + stdDev);
+		boolean[] isLine = new boolean[whitePixels.length];
+		for (int i = 0; i < whitePixels.length; i++) {
+			isLine[i] = whitePixels[i] > stdDev / 3;
+		}
+		
+		minLineHeight = maxLineHeight(isLine);
+		isLine = normalizeLines(isLine);
+
+		ochDocument = new OCHDocument(filename, false);
+		imagePixels = ochDocument.getImagePixels();
+		
+		int highlight = (new Color(255, 0, 255)).getRGB();
+		for (int y = 0; y < imagePixels.getImageHeight(); y++) {
+			if (isLine[y]) {
+				//imagePixels.setPixel(0, y, highlight);
+				//imagePixels.setPixel(imagePixels.getImageWidth() - 1, y, highlight);
+			} /*else if ((y != 0 && y != imagePixels.getImageHeight() - 1) && (isLine[y - 1] || isLine[y + 1])) {
+				int[] row = new int[imagePixels.getImageWidth()];
+				Arrays.fill(row, highlight);
+				imagePixels.setRowPixelValues(y, row);
+			}*/
+			else {
+				imagePixels.setRowPixelColor(y, highlight);
+			}
+		}
+		int ctLines = 0;
+		for (boolean ln : isLine) {
+			if (ln)
+				ctLines++;
+		}
+		LOG.fine(ctLines + " lines detected in the scanned image.");
+
+		return imagePixels.getImageAsBufferedImage();
+	}
+	
+	public ImagePixels findEdgesInvertColors() {
+		try {
+			File f = new File(imageFilename);
+			ImagePlus imagePlus = new ImagePlus("edges", ImageIO.read(f));
+			ImageProcessor processor = imagePlus.getProcessor();
+			processor.findEdges();
+			//JpegWriter writer = new JpegWriter();
+			//writer.save(imagePlus, OcharenaSettings.dataFolder + "outputEdges2.jpg", 100);
+			ImagePixels result = new ImagePixels(imagePlus.getBufferedImage());
+			result.invertColors();
+			//File file = new File(OcharenaSettings.dataFolder + File.separator + "outputInverted2.jpg");
+			//ImageIO.write(result.getImageAsBufferedImage(), "jpg", file);
+			return result;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public BufferedImage getTracedImage() {
 		LOG.entering(this.getClass().toString(), "getTracedImage()");
 		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
-		imagePixels = ochDocument.getImagePixels();
+		/*
+		imagePixels = findEdgesInvertColors();//ochDocument.getImagePixels();
 		if (this.grayscale)
 			imagePixels.convertPixelsToGrayscale();
 		boolean[] isLine = new boolean[imagePixels.getImageHeight()];
@@ -162,11 +274,13 @@ public class LineTracer {
 		}
 
 		isLine = includeOutlyingMarks(isLine, imagePixels);
-		//isLine = normalizeLines(isLine);
-		//isLine = segmentLines();
-		//minLineHeight = maxLineHeight(isLine);
 		isLine = normalizeLines(isLine);
+		isLine = segmentLines();
+		minLineHeight = maxLineHeight(isLine);
+		isLine = normalizeLines(isLine);
+		*/
 
+		boolean[] isLine = identifyLines();
 		ochDocument = new OCHDocument(filename, false);
 		imagePixels = ochDocument.getImagePixels();
 		
@@ -175,7 +289,7 @@ public class LineTracer {
 			if (isLine[y]) {
 				imagePixels.setPixel(0, y, highlight);
 				imagePixels.setPixel(imagePixels.getImageWidth() - 1, y, highlight);
-			} else if ((y != 0 && y != imagePixels.getImageHeight() - 1) && (isLine[y - 1] || isLine[y + 1])) {
+			} else if ((y != 0 && y != imagePixels.getImageHeight() - 1) && ((isLine[y - 1] || isLine[y + 1]) || (y != 1 && y != imagePixels.getImageHeight() - 2 && (isLine[y - 2] || isLine[y + 2])))) {
 				int[] row = new int[imagePixels.getImageWidth()];
 				Arrays.fill(row, highlight);
 				imagePixels.setRowPixelValues(y, row);
@@ -205,6 +319,34 @@ public class LineTracer {
 		}
 		
 		return maximumHeight;
+	}
+	
+	public BufferedImage generateHistogramOverlay() {
+		int highlight = (new Color(255, 0, 255)).getRGB();
+		ImagePixels pixels = new ImagePixels(imageFilename, false);
+		int[] whitePixels = generateLineHistogram();
+		for (int i = 0; i < whitePixels.length; i++) {
+			int[] rowPixels = pixels.getPixelRow(i);
+			for (int j = 0; j < whitePixels[i]; j++) {
+				rowPixels[j] = highlight;
+			}
+			pixels.setRowPixelValues(i, rowPixels);
+		}
+		return pixels.getImageAsBufferedImage();
+	}
+	
+	public int[] generateLineHistogram() {
+		ImagePixels pixels = findEdgesInvertColors();
+		pixels.invertColors();
+		int[] whitePixelCounts = new int[pixels.getImageHeight()];
+		for (int i = 0; i < pixels.getImageHeight(); i++) {
+			int whiteCount = 0;
+			for (int eachPixel : pixels.getPixelRow(i)) {
+				if (eachPixel == Color.WHITE.getRGB()) whiteCount++;
+			}
+			whitePixelCounts[i] = whiteCount;
+		}
+		return whitePixelCounts;
 	}
 	
 	public boolean[] segmentLines() {
@@ -481,5 +623,8 @@ public class LineTracer {
 		return new LineSegmentedDocument(doc, this.segmentLines());
 	}
 
+	public ImagePixels getImagePixels() {
+		return imagePixels;
+	}
 
 }

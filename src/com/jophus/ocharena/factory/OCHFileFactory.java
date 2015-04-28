@@ -15,7 +15,6 @@ import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.document.OCHFile;
 import com.jophus.ocharena.image.ImagePixels;
 import com.jophus.ocharena.ochfile.MasterSegmentHeader;
-import com.jophus.util.JophFileUtils;
 
 public class OCHFileFactory {
 
@@ -29,6 +28,7 @@ public class OCHFileFactory {
 		ImagePixels image = new ImagePixels(originalImageFilename);
 		archiveFile = generateArchive(originalImageFilename);
 		OCHFile ochFile = new OCHFile(archiveFile.getAbsolutePath());
+		
 		masterHeaderFile = new File(MasterSegmentHeader.masterHeaderFilename);
 		if (!masterHeaderFile.createNewFile()) {
 			ochFile.deleteFile();
@@ -36,6 +36,7 @@ public class OCHFileFactory {
 		} else {
 			writeToMasterHeader(masterHeaderFile, imageBaseNameAndExtension, image.getImageWidth(), image.getImageHeight());
 		}
+		
 		ZipArchiveOutputStream archiveOutputStream = new ZipArchiveOutputStream(archiveFile);
 		archiveOutputStream.putArchiveEntry(archiveOutputStream.createArchiveEntry(originalImageFile, imageBaseNameAndExtension));
 		archiveOutputStream.write(Files.readAllBytes(Paths.get(originalImageFile.toURI())));
@@ -60,9 +61,9 @@ public class OCHFileFactory {
 
 	private static File generateArchive(String originalImageFilename) throws IOException {
 		String archiveFilename = FilenameUtils.getBaseName(originalImageFilename) + OcharenaSettings.OCH_FILE_EXTENSION;
-		File archiveFile = new File(archiveFilename);
+		File archiveFile = new File(OcharenaSettings.ochFolder + archiveFilename);
 		if (!archiveFile.createNewFile()) {
-			archiveFilename = System.currentTimeMillis() + archiveFilename;
+			archiveFilename = OcharenaSettings.ochFolder + System.currentTimeMillis() + archiveFilename;
 			archiveFile = new File(archiveFilename);
 			if (!archiveFile.createNewFile()) {
 				throw new IOException("Error while creating new .och file!");

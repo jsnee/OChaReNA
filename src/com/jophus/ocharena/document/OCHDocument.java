@@ -1,14 +1,24 @@
 package com.jophus.ocharena.document;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.util.Enumeration;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 
-import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.factory.OCHFileFactory;
 import com.jophus.ocharena.image.ImagePixels;
+import com.jophus.ocharena.image.path.PathManager;
+import com.jophus.ocharena.image.path.PixelPath;
+import com.jophus.ocharena.ochfile.LineSegmentHeader;
 import com.jophus.ocharena.ochfile.MasterSegmentHeader;
 
 public class OCHDocument {
@@ -54,6 +64,18 @@ public class OCHDocument {
 			imagePixels = ochFile.extractImagePixels(masterHeader);
 		}
 	}
+	
+	public void archiveLines(File lineDirectory) {
+		ochFile.addDirectoryToArchive(lineDirectory);
+	}
+	
+	public void archiveLineHeader(File lineHeader) {
+		ochFile.addFileToArchive(lineHeader, LineSegmentHeader.lineSegmentHeaderFilename);
+	}
+	
+	public void archiveChars(File charDirectory) {
+		ochFile.addDirectoryToArchive(charDirectory);
+	}
 
 	public MasterSegmentHeader getMasterHeader() {
 		return masterHeader;
@@ -61,6 +83,37 @@ public class OCHDocument {
 
 	public ImagePixels getImagePixels() {
 		return imagePixels;
+	}
+	
+	public PathManager loadImageHeader() {
+		PathManager result = new PathManager(imagePixels.getImageWidth(), imagePixels.getImageHeight());
+		try {
+			ZipFile ochArchive = new ZipFile(new File(filepath));
+
+			for (Enumeration<ZipArchiveEntry> entries = ochArchive.getEntries(); entries.hasMoreElements();) {
+
+				ZipArchiveEntry archiveEntry = entries.nextElement();
+				if (!archiveEntry.getName().equalsIgnoreCase(LineSegmentHeader.lineSegmentHeaderFilename))
+					continue;
+				ObjectInputStream is = new ObjectInputStream(ochArchive.getInputStream(archiveEntry));
+				int length = is.readInt();
+				for (int i = 0; i < length; i++) {
+					char[] chars = new char[4];
+					chars[0] = is.readChar();
+					chars[1] = is.readChar();
+					chars[2] = is.readChar();
+					chars[3] = is.readChar();
+					Object o = is.readObject();
+					result.addPath(PixelPath.buildPixelPath(chars[2], o));
+				}
+			}
+			ochArchive.close();
+
+		} catch (IOException | ClassNotFoundException e) {
+			logger.severe(e.getMessage());
+		}
+		
+		return result;
 	}
 	
 	public ImagePixels loadBlueMutedImagePixels() {

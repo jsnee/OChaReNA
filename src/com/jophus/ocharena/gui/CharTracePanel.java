@@ -16,11 +16,11 @@ import com.jophus.utils.gui.JophPanelDescription;
 
 public class CharTracePanel extends JPanel {
 
-	private final GUIController guiController;
+	private final GuiController guiController;
 	private JophFileSelect fileSelect;
 	private JPanel centerPanel;
 	
-	public CharTracePanel(GUIController guiController)
+	public CharTracePanel(GuiController guiController)
 	{
 		this.guiController = guiController;
 		

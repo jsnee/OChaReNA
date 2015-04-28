@@ -13,16 +13,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.jophus.houghtransformation.HTEngine;
+import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.document.OCHDocument;
 import com.jophus.utils.gui.JophFileSelect;
 import com.jophus.utils.gui.JophPanelDescription;
 
 public class LineTracePanel extends JPanel {
-	private final GUIController guiController;
+	private final GuiController guiController;
 	private JophFileSelect fileSelect;
 	private JPanel centerPanel;
 
-	public LineTracePanel(GUIController guiController)
+	public LineTracePanel(GuiController guiController)
 	{
 		this.guiController = guiController;
 
@@ -63,10 +64,14 @@ public class LineTracePanel extends JPanel {
 
 				if (!(new File(fileSelect.getFilePath())).exists()) {
 					//JOptionPane.showMessageDialog(null, "Source Image Does Not Exist!");
-					guiController.traceLines("images" + File.separator + "test_case.jpg");
+					guiController.traceLines(OcharenaSettings.dataFolder + File.separator + "SCAN0001_cropped.jpg");
 					JOptionPane.showMessageDialog(null, "Done!");
 				} else {
-					guiController.houghTransform2(fileSelect.getFilePath());
+					//guiController.houghTransform2(fileSelect.getFilePath());
+					String selectedFile = fileSelect.getFilePath();
+					//guiController.houghTransform(selectedFile);
+					OCHDocument ochDoc = new OCHDocument(selectedFile);
+					guiController.traceLines(selectedFile);
 					JOptionPane.showMessageDialog(null, "Done!");
 				}
 			}
@@ -88,9 +93,9 @@ public class LineTracePanel extends JPanel {
 				} else {
 					//guiController.traceLinesTest(fileSelect.getFilePath());
 					String selectedFile = fileSelect.getFilePath();
-					guiController.houghTransform(selectedFile);
-					//OCHDocument ochDoc = new OCHDocument(selectedFile);
-					//guiController.traceLines(ochDoc.getFilepath());
+					//guiController.houghTransform(selectedFile);
+					OCHDocument ochDoc = new OCHDocument(selectedFile);
+					guiController.traceLines(ochDoc.getFilepath());
 					JOptionPane.showMessageDialog(null, "Done!");
 				}
 			}

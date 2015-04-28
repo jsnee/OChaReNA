@@ -12,9 +12,9 @@ public class OCRMainFrame extends JFrame {
 	
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 700;
-	private final GUIController guiController;
+	private final GuiController guiController;
 
-	public OCRMainFrame(GUIController guiController)
+	public OCRMainFrame(GuiController guiController)
 	{
 		this.guiController = guiController;
 		configureFrame();

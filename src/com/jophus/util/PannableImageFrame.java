@@ -25,20 +25,24 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
+import com.jophus.ocharena.Ocharena;
+import com.jophus.ocharena.factory.OchDataFactory;
 import com.jophus.ocharena.gui.GuiController;
 import com.jophus.ocharena.image.DetectedChars;
 import com.jophus.ocharena.image.DetectedLines;
+import com.jophus.ocharena.image.ImagePixels;
 import com.jophus.ocharena.image.path.PathManager;
 import com.jophus.ocharena.image.path.PathManagerStack;
 import com.jophus.ocharena.image.path.PathManagerStack.PathManagerType;
 import com.jophus.ocharena.image.path.PixelPath;
+import com.jophus.ocharena.nn.OchDataRow;
 
 public class PannableImageFrame extends JFrame implements MouseListener, MouseMotionListener, KeyListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	public enum ListenerState { SelectPath, TransformPath }
 
-	private static final String[] MenuOptionText = { "Transform Path", "Remove Path" };
+	private static final String[] MenuOptionText = { "Transform Path", "Remove Path", "Train Character", "Guess Character" };
 	private static final int DraggingMargin = 2;
 
 	private JPanel canvas;
@@ -211,6 +215,14 @@ public class PannableImageFrame extends JFrame implements MouseListener, MouseMo
 		JMenuItem removeMenuItem = new JMenuItem(MenuOptionText[1]);
 		removeMenuItem.addActionListener(this);
 		result.add(removeMenuItem);
+		if (displayedType == PathManagerType.DetectedCharacters) {
+			JMenuItem trainMenuItem = new JMenuItem(MenuOptionText[2]);
+			trainMenuItem.addActionListener(this);
+			result.add(trainMenuItem);
+			JMenuItem guessMenuItem = new JMenuItem(MenuOptionText[3]);
+			guessMenuItem.addActionListener(this);
+			result.add(guessMenuItem);
+		}
 		return result;
 	}
 
@@ -297,10 +309,16 @@ public class PannableImageFrame extends JFrame implements MouseListener, MouseMo
 				unalteredPath = null;
 				update(getGraphics());
 			} else if (listenerState == ListenerState.SelectPath) {
-				//				if (dis)
-				int continueProcess = JOptionPane.showConfirmDialog(null, "Are you done selecting the lines?", "Continue Processing", JOptionPane.YES_NO_OPTION);
+				int continueProcess = 0;
+				if (displayedType == PathManagerType.DetectedLines)
+					continueProcess = JOptionPane.showConfirmDialog(null, "Are you done selecting the lines?", "Continue Processing", JOptionPane.YES_NO_OPTION);
+				else if (displayedType == PathManagerType.DetectedCharacters)
+					continueProcess = JOptionPane.showConfirmDialog(null, "Are you done selecting the characters?", "Continue Processing", JOptionPane.YES_NO_OPTION);
 				if (continueProcess == JOptionPane.YES_OPTION) {
-					guiController.archiveLines(pathManagerStack.get(displayedType));
+					if (displayedType == PathManagerType.DetectedLines)
+						guiController.archiveLines(pathManagerStack.get(displayedType));
+					else if (displayedType == PathManagerType.DetectedCharacters)
+						guiController.guessChars(pathManagerStack.get(displayedType));
 					this.dispose();
 				}
 			}
@@ -367,6 +385,12 @@ public class PannableImageFrame extends JFrame implements MouseListener, MouseMo
 		} else if (e.getActionCommand().equals(MenuOptionText[1])) {
 			unalteredPath = pathManagerStack.get(displayedType).remove(selectedPath);
 			selectedPath = -1;
+		} else if (e.getActionCommand().equals(MenuOptionText[2])) {
+			String s = (String)JOptionPane.showInputDialog(null, "What Character is it?", "Train Character", JOptionPane.PLAIN_MESSAGE, null, null, null);
+			OchDataRow dataRow = new OchDataRow(new ImagePixels(image).getPixelsFromPixelPath(pathManagerStack.get(displayedType).getPath(selectedPath)), s.charAt(0));
+			Ocharena.trainingSet.addRow(dataRow.getData(), dataRow.getExpectedOutputArray());
+		}  else if (e.getActionCommand().equals(MenuOptionText[3])) {
+			// TODO test character detection
 		} else return;
 		update(getGraphics());
 	}

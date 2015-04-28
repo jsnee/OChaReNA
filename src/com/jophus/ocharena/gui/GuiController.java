@@ -20,6 +20,7 @@ import org.neuroph.core.NeuralNetwork;
 import com.jophus.houghtransformation.EHTProcessStep;
 import com.jophus.houghtransformation.HTEngine;
 import com.jophus.houghtransformation.HTImage;
+import com.jophus.ocharena.Ocharena;
 import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.document.LineSegmentedDocument;
 import com.jophus.ocharena.document.OCHDocument;
@@ -187,7 +188,8 @@ public class GuiController {
 	public void guessChars(PathManager charPaths) {
 		String guesses = "";
 		System.out.println("Loading Neural Network...");
-		NeuralNetwork nnet = NeuralNetwork.createFromFile(OcharenaSettings.dataFolder + "testNN.nnet");
+		NeuralNetwork nnet = Ocharena.neuralNet;
+		nnet.learn(Ocharena.trainingSet);
 		for (int i = 0; i < charPaths.size(); i++) {
 			if (charPaths.getPath(i).getIsSpace()) {
 				System.out.println("Space detected!");

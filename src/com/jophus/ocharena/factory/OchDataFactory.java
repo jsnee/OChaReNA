@@ -13,6 +13,7 @@ import org.neuroph.util.TransferFunctionType;
 
 import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.image.ImagePixels;
+import com.jophus.ocharena.image.path.PixelPath;
 import com.jophus.ocharena.nn.OchDataRow;
 
 public class OchDataFactory {
@@ -39,6 +40,14 @@ public class OchDataFactory {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return trainingSet;
+	}
+	
+	public static DataSet loadPixelPathTrainData(ImagePixels imagePixels, PixelPath pixelPath, char expectedCharacter) {
+		DataSet trainingSet = new DataSet(OcharenaSettings.NUM_ATTRIBUTES, OcharenaSettings.SUPPORTED_CHARS.length()); 
+		
+		OchDataRow dataRow = new OchDataRow(imagePixels.getPixelsFromPixelPath(pixelPath), expectedCharacter);
+		trainingSet.addRow(dataRow.getData(), dataRow.getExpectedOutputArray());
 		return trainingSet;
 	}
 	

@@ -7,6 +7,7 @@ public class OcharenaSettings {
 	public static String defaultWorkingDirectoryPath = "ScannedDocuments" + File.separator;
 	public static String temporaryDirectoryPath = "TempDocs" + File.separator;
 	public static String dataFolder = "data" + File.separator;
+	public static String neuralNetworkFile = dataFolder + "OChaReNA.nnet";
 	public static String ochFolder = dataFolder + "och" + File.separator;
 	public static final String ARCHIVE_FILETYPE_EXTENSION = ".zip";
 	public static final String OCH_FILE_EXTENSION = ".och";

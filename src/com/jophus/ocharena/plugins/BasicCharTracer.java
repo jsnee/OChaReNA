@@ -55,6 +55,7 @@ public class BasicCharTracer {
 		for (int i = 0; i < linePaths.size(); i++) {
 			PathManager charPaths = detectChars(imagePixels, linePaths.getPath(i));
 			for (int j = 0; j < charPaths.size(); j++) {
+				if (charPaths.getPath(j).getBounds().width < 10) continue;
 				result.addPath(charPaths.getPath(j));
 			}
 		}

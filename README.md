@@ -1,6 +1,8 @@
 OChaReNA
 ========
 
+Created by Joseph Snee
+
 Optical Character Recognition Notation Application
 
 To use, simply choose the file to be processed with the file chooser and click "Guided Image Processing".

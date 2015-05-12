@@ -23,6 +23,13 @@ import com.jophus.ocharena.factory.OCHFileFactory;
 import com.jophus.ocharena.image.DocumentMetadata;
 import com.jophus.ocharena.image.ImagePixels;
 
+@Deprecated
+/**
+ * LineTracer class. Testing class used for trying various methods of line segmentation.
+ * @author Joe Snee
+ * deprecated. See BasicLineTracer
+ *
+ */
 public class LineTracer {
 	
 	private static final Logger LOG = Logger.getLogger(LineTracer.class.getName());
@@ -78,22 +85,22 @@ public class LineTracer {
 	
 	public boolean[] identifyLines() {
 		LOG.entering(this.getClass().toString(), "identifyLines()");
-		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		OCHDocument ochDocument = new OCHDocument(filename, false);
 		imagePixels = ochDocument.getImagePixels();
 		DocumentMetadata metadata = new DocumentMetadata();
 		boolean[] isLine = new boolean[imagePixels.getImageHeight()];
 		this.threshold = this.thresholdInit;
 		double diff = getRMS() / getMinMaxRMS();
-		LOG.fine("Diff: " + diff);
-		this.threshold = 1 - diff;
+		LOG.info("Diff: " + diff);
+		this.threshold = 1 + diff/2;
 		this.threshold2 = 1 - diff/2;
-		LOG.fine("Thresholds:");
-		LOG.fine("\tThreshold 1 = " + this.threshold);
-		LOG.fine("\tThreshold 2 = " + this.threshold2);
+		LOG.info("Thresholds:");
+		LOG.info("\tThreshold 1 = " + this.threshold);
+		LOG.info("\tThreshold 2 = " + this.threshold2);
 		double rms = getRMS();
-		LOG.fine("RMS Min-Max: " + getMinMaxRMS());
-		LOG.fine("Root-Mean-Square: " + rms);
-		LOG.fine("Max Possible: " + imagePixels.getImageWidth());
+		LOG.info("RMS Min-Max: " + getMinMaxRMS());
+		LOG.info("Root-Mean-Square: " + rms);
+		LOG.info("Max Possible: " + imagePixels.getImageWidth());
 		for (int y = 0; y < imagePixels.getImageHeight(); y++) {
 			int[] row = imagePixels.getPixelRow(y);
 			int count = 0;
@@ -376,7 +383,7 @@ public class LineTracer {
 			int[] row = img.getPixelRow(y);
 			int count = 0;
 			for (int each : row) {
-				if (getStdLum(each) < (this.threshold2 * this.maxLum) || getCombinedRGB(each) < (this.threshold2 * this.maxCombRGB))
+				if (getStdLum(each) < (this.threshold * this.maxLum) || getCombinedRGB(each) < (this.threshold * this.maxCombRGB))
 					count++;
 			}
 
@@ -396,7 +403,7 @@ public class LineTracer {
 			if (i <= 0) { continue; }
 			if (data[i] && !data[i-1]) { // If beginning of line
 				for (int x = 0; x < img.getImageWidth(); x++) { // Cycle through pixels above top of line
-					if (getStdLum(img.getPixelValueByCoordinate(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixelValueByCoordinate(x, i-1)) < (this.threshold2 * this.maxLum)) {
+					if (getStdLum(img.getPixel(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixel(x, i-1)) < (this.threshold2 * this.maxLum)) {
 						pixCount++;
 					}
 				}
@@ -406,7 +413,7 @@ public class LineTracer {
 				}
 			} else if (data[i] && !data[i+1]) { // If end of line
 				for (int x = 0; x < img.getImageWidth(); x++) { // Cycle through pixels below bottom of line
-					if (getStdLum(img.getPixelValueByCoordinate(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixelValueByCoordinate(x, i+1)) < (this.threshold2 * this.maxLum)) {
+					if (getStdLum(img.getPixel(x, i)) < (this.threshold2 * this.maxLum) &&  getStdLum(img.getPixel(x, i+1)) < (this.threshold2 * this.maxLum)) {
 						pixCount++;
 					}
 				}
@@ -500,8 +507,8 @@ public class LineTracer {
 	}
 
 	public BufferedImage getStdPixelLum() {
-		//OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
-		ImagePixels img = imagePixels;//ochDocument.getImagePixels();
+		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		ImagePixels img = ochDocument.getImagePixels();
 		int highlight = (new Color(255, 0, 255)).getRGB();
 		for (int y = 0; y < img.getImageHeight(); y++) {
 			int[] row = img.getPixelRow(y);
@@ -520,8 +527,8 @@ public class LineTracer {
 	}
 
 	public BufferedImage getPerPixelLum() {
-		//OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
-		ImagePixels img = imagePixels;//ochDocument.getImagePixels();
+		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		ImagePixels img = ochDocument.getImagePixels();
 		int highlight = (new Color(255, 0, 255)).getRGB();
 		for (int y = 0; y < img.getImageHeight(); y++) {
 			int[] row = img.getPixelRow(y);
@@ -540,8 +547,8 @@ public class LineTracer {
 	}
 
 	public BufferedImage getPixelCount() {
-		//OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
-		ImagePixels img = imagePixels;//ochDocument.getImagePixels();
+		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		ImagePixels img = ochDocument.getImagePixels();
 		int highlight = (new Color(255, 0, 255)).getRGB();
 		for (int y = 0; y < img.getImageHeight(); y++) {
 			int[] row = img.getPixelRow(y);
@@ -560,8 +567,8 @@ public class LineTracer {
 	}
 
 	public double getMinMaxRMS() {
-		//OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
-		ImagePixels img = imagePixels;//ochDocument.getImagePixels();
+		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		ImagePixels img = ochDocument.getImagePixels();
 		if (this.grayscale)
 			img.convertPixelsToGrayscale();
 		int max = 0;
@@ -583,8 +590,8 @@ public class LineTracer {
 	}
 
 	public double getRMS() {
-		//OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
-		ImagePixels img = imagePixels;//ochDocument.getImagePixels();
+		OCHDocument ochDocument = new OCHDocument(filename, muteBlue);
+		ImagePixels img = ochDocument.getImagePixels();
 		int fullCt = 0;
 		if (this.grayscale)
 			img.convertPixelsToGrayscale();

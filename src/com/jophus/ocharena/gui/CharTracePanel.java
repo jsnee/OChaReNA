@@ -14,9 +14,17 @@ import javax.swing.JPanel;
 import com.jophus.utils.gui.JophFileSelect;
 import com.jophus.utils.gui.JophPanelDescription;
 
+@Deprecated
+/**
+ * CharTracePanel class. Used mostly for testing, deprecated now.
+ * @author Joe Snee
+ * deprecated. See ImageProcessPanel
+ */
 public class CharTracePanel extends JPanel {
 
+	// The parent GUI
 	private final GuiController guiController;
+	// Custom file selector
 	private JophFileSelect fileSelect;
 	private JPanel centerPanel;
 	
@@ -42,6 +50,10 @@ public class CharTracePanel extends JPanel {
 		this.add(centerPanel, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Gets the action listener for the submit button
+	 * @return the submit button action listener
+	 */
 	private ActionListener getSubmitAction() {
 		return new ActionListener() {
 
@@ -50,6 +62,7 @@ public class CharTracePanel extends JPanel {
 				File imageFile = new File(fileSelect.getFilePath());
 				
 				if (!imageFile.exists()) {
+					// Input filepath does not exist
 					JOptionPane.showMessageDialog(null, "Source Image Does Not Exist!");
 				} else {
 					guiController.traceChars(imageFile);

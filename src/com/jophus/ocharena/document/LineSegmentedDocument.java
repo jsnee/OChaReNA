@@ -15,6 +15,12 @@ import com.jophus.ocharena.Ocharena;
 import com.jophus.ocharena.image.ImagePixels;
 import com.jophus.util.JophIOUtils;
 
+@Deprecated
+/**
+ * Document class to process line segmentation
+ * @author Joe Snee
+ * deprecated. See BasicLineTracer
+ */
 public class LineSegmentedDocument {
 
 	private List<DocumentLine> lines = new ArrayList<DocumentLine>();

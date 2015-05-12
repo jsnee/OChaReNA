@@ -18,8 +18,15 @@ import com.jophus.ocharena.document.OCHDocument;
 import com.jophus.utils.gui.JophFileSelect;
 import com.jophus.utils.gui.JophPanelDescription;
 
+@Deprecated
+/**
+ * LineTracePanel class. Used mostly for testing various line segmentation methods.
+ * @author Joe Snee
+ * deprecated. See ImageProcessPanel
+ */
 public class LineTracePanel extends JPanel {
 	private final GuiController guiController;
+	// Custom file selector
 	private JophFileSelect fileSelect;
 	private JPanel centerPanel;
 
@@ -38,6 +45,7 @@ public class LineTracePanel extends JPanel {
 		fileSelect = new JophFileSelect();
 		centerPanel.add(fileSelect);
 
+		// Set up buttons to run various tests
 		JButton btn = new JButton("Process Image");
 		btn.addActionListener(getSubmitAction());
 		centerPanel.add(btn);
@@ -93,9 +101,9 @@ public class LineTracePanel extends JPanel {
 				} else {
 					//guiController.traceLinesTest(fileSelect.getFilePath());
 					String selectedFile = fileSelect.getFilePath();
-					//guiController.houghTransform(selectedFile);
-					OCHDocument ochDoc = new OCHDocument(selectedFile);
-					guiController.traceLines(ochDoc.getFilepath());
+					guiController.houghTransform(selectedFile);
+					//OCHDocument ochDoc = new OCHDocument(selectedFile);
+					//guiController.traceLines(ochDoc.getFilepath());
 					JOptionPane.showMessageDialog(null, "Done!");
 				}
 			}
@@ -111,7 +119,6 @@ public class LineTracePanel extends JPanel {
 					//JOptionPane.showMessageDialog(null, "Source Image Does Not Exist!");
 					//guiController.traceLinesTest("images" + File.separator + "test_case.jpg");
 					String selectedFile = "G:\\eclipse\\Workspaces\\Capstone\\OChaReNA\\outputHough.jpg";
-					guiController.invertImage(selectedFile);
 					JOptionPane.showMessageDialog(null, "Whoops!");
 				} else {
 					//guiController.traceLinesTest(fileSelect.getFilePath());

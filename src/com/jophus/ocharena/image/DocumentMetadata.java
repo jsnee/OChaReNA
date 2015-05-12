@@ -2,6 +2,11 @@ package com.jophus.ocharena.image;
 
 import java.awt.Color;
 
+/**
+ * DocumentMetadata class. Allows some useful metadata options to be set about the paper and lighting conditions
+ * @author Joe Snee
+ *
+ */
 public class DocumentMetadata {
 
 	private boolean isBlueLinedPaper = false;

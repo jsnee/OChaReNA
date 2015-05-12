@@ -8,28 +8,32 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+/**
+ * OCRMainFrame class. The main JFrame to contain the GUI
+ * @author Joe Snee
+ *
+ */
 public class OCRMainFrame extends JFrame {
 	
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 700;
 	private final GuiController guiController;
 
-	public OCRMainFrame(GuiController guiController)
-	{
+	/**
+	 * Constructor. Sets up the frame as needed
+	 * @param guiController
+	 */
+	public OCRMainFrame(GuiController guiController) {
 		this.guiController = guiController;
 		configureFrame();
 		addComponents();
 	}
 
 	private void configureFrame() {
-
 		this.setSize(OCRMainFrame.WIDTH, OCRMainFrame.HEIGHT);
 		this.setMinimumSize(new Dimension(OCRMainFrame.WIDTH, OCRMainFrame.HEIGHT));
 		this.setTitle("OChaReNA - Optical Character Recognition & Notation Application");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
 	}
 
 	private void addComponents() {

@@ -2,6 +2,12 @@ package com.jophus.ocharena.character;
 
 import java.util.ArrayList;
 
+@Deprecated
+/**
+ * ParsedCharacter class.
+ * @author Joe Snee
+ * deprecated. See OcharenaSettings
+ */
 public abstract class ParsedCharacter {
 	
 	//ArrayList of all parsed characters

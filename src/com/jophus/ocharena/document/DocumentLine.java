@@ -5,6 +5,12 @@ import java.awt.image.BufferedImage;
 
 import com.jophus.ocharena.image.ImagePixels;
 
+@Deprecated
+/**
+ * DocumentLine class. Represents a detected line from the document.
+ * @author Joe Snee
+ * deprecated. See DetectedLines
+ */
 public class DocumentLine {
 	
 	private DocumentSegment line;

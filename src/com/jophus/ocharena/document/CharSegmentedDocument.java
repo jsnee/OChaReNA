@@ -3,6 +3,7 @@ package com.jophus.ocharena.document;
 import java.io.File;
 import java.util.logging.Logger;
 
+@Deprecated
 public class CharSegmentedDocument implements OCRDocumentHandler {
 
 	private static final Logger LOG = Logger.getLogger(CharSegmentedDocument.class.getName());

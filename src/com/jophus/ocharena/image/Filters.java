@@ -3,6 +3,12 @@ package com.jophus.ocharena.image;
 import java.io.File;
 import java.util.ArrayList;
 
+@Deprecated
+/**
+ * Image filter class.
+ * @author Joe Snee
+ * deprecated. See ImagePixels
+ */
 public class Filters {
 	private File file;
 	private FilterOptions options;

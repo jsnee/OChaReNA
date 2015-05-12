@@ -15,8 +15,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import org.neuroph.core.NeuralNetwork;
-
 import com.jophus.houghtransformation.EHTProcessStep;
 import com.jophus.houghtransformation.HTEngine;
 import com.jophus.houghtransformation.HTImage;
@@ -37,132 +35,191 @@ import com.jophus.ocharena.plugins.BasicCharTracer;
 import com.jophus.ocharena.plugins.BasicLineTracer;
 import com.jophus.ocharena.plugins.CharTracer;
 import com.jophus.ocharena.plugins.LineTracer;
-import com.jophus.util.PannableImageFrame;
-import com.jophus.util.PannableImageFrame.ListenerState;
+import com.jophus.util.InteractiveImageFrame;
+import com.jophus.util.InteractiveImageFrame.ListenerState;
 import com.jophus.utils.gui.JophImgFrame;
 
+/**
+ * GuiController class. Handles most of the process, start to finish
+ * @author Joe Snee
+ *
+ */
 public class GuiController {
 
 	private static final Logger LOG = Logger.getLogger(GuiController.class.getName());
 
 	private OCRMainFrame mainFrame;
+	// Deprecated
 	private ScannedDocument doc;
 	private OCHDocument ochDoc;
 
-	public GuiController()
-	{
+	/**
+	 * Default Constructor.
+	 */
+	public GuiController() {
 		setLookAndFeel();
 		mainFrame = new OCRMainFrame(this);
 	}
 
-	public void setLookAndFeel()
-	{
+	/**
+	 * Setup the Gui
+	 */
+	public void setLookAndFeel() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, null, e);
 		}
 	}
-	
+
+	/**
+	 * Load an OCHArchive by filename
+	 * @param ochDocumentFilename the archive filename
+	 */
 	public void loadOchDocument(String ochDocumentFilename) {
 		ochDoc = new OCHDocument(ochDocumentFilename);
 	}
 
+	/**
+	 * Process the image unguided and generate a text document representation. Never fully implemented
+	 * @param imageFilename the image filename
+	 */
 	public void processImage(String imageFilename) {
 		LOG.entering(this.getClass().toString(), "processImage()");
 
-		ochDoc = new OCHDocument(imageFilename, false);
+		ochDoc = new OCHDocument(imageFilename);
 		BasicLineTracer lineTracer = new BasicLineTracer(imageFilename);
 		lineTracer.extractLines(ochDoc);
 		JOptionPane.showMessageDialog(null, "Done!");
 	}
 
+	/**
+	 * Begin processing the image, prompting user input where necessary.
+	 * @param imageFilename the image filename
+	 */
 	public void processImageGuided(String imageFilename) {
 		LOG.entering(this.getClass().toString(), "processImageGuided()");
 
-		ochDoc = new OCHDocument(imageFilename, false);
+		// Initialize the document and setup the line tracer
+		ochDoc = new OCHDocument(imageFilename);
 		BasicLineTracer lineTracer = new BasicLineTracer(imageFilename);
 		try {
+			// Display the document to the user, highlighting the detected lines 
 			BufferedImage bimg = ImageIO.read(new File(imageFilename));
-			PannableImageFrame imgFrame = new PannableImageFrame("Line Selection", bimg);
+			InteractiveImageFrame imgFrame = new InteractiveImageFrame("Line Selection", bimg);
 			imgFrame.setGuiController(this);
+			long start = System.currentTimeMillis();
+			// Detect the lines and set them in the Image Frame
 			imgFrame.setDetectedLines(new DetectedLines(bimg.getWidth(), bimg.getHeight(), lineTracer.detectLines(ochDoc)));
+			
+			// Benchmarking stats
+			long elapsed = System.currentTimeMillis() - start;
+			LOG.info("Line Histogram Elapsed Processing Time: " + elapsed / 1000 + " seconds");
+			
 			imgFrame.setDisplayPathType(PathManagerType.DetectedLines);
 			imgFrame.setVisible(true);
+			// Prompt user for continuation
 			int continueProcess = JOptionPane.showConfirmDialog(null, "Select Line To Segment?", "Continue Processing", JOptionPane.YES_NO_OPTION);
 			if (continueProcess == JOptionPane.YES_OPTION) {
 				imgFrame.setListenerState(ListenerState.SelectPath);
 			} else {
-
+				// Save for later, never implemented
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Processes the detected lines to isolate the individual characters
+	 */
 	public void processLinesGuided() {
+		// Initialize character tracer
 		BasicCharTracer charTracer = new BasicCharTracer(ochDoc);
+		// Detect the characters
 		PathManager charPaths = charTracer.detectChars();
 		BufferedImage bimg = ochDoc.getImagePixels().getImageAsBufferedImage();
-		PannableImageFrame imgFrame = new PannableImageFrame("Character Selection", bimg);
+		
+		// Display document with characters outlined
+		InteractiveImageFrame imgFrame = new InteractiveImageFrame("Character Selection", bimg);
 		imgFrame.setGuiController(this);
 		imgFrame.setDetectedChars(charPaths);
 		imgFrame.setDisplayPathType(PathManagerType.DetectedCharacters);
 		imgFrame.setVisible(true);
+		// Prompt user for continuation
 		int continueProcess = JOptionPane.showConfirmDialog(null, "Select Char To Segment?", "Continue Processing", JOptionPane.YES_NO_OPTION);
 		if (continueProcess == JOptionPane.YES_OPTION) {
 			imgFrame.setListenerState(ListenerState.SelectPath);
 		} else {
+			// Not fully implemented yet
 			guessChars(charPaths);
 		}
 	}
 
+	// Unimplemented
 	public void saveCharPaths(PathManager pathManager) {
 	}
 
+	/**
+	 * Save the line images to the archive and prompt user for continuation
+	 * @param linePaths
+	 */
 	public void archiveLines(PathManager linePaths) {
-		File lineDir = new File(OcharenaSettings.dataFolder + "lines" + File.separator);
-		lineDir.mkdir();
+		// Build the directory to temporarily store the lines until they are archived - no longer needed
+		//File lineDir = new File(OcharenaSettings.dataFolder + "lines" + File.separator);
+		//lineDir.mkdir();
 		try {
+			// Create the line header file
 			File lineSegmentHeaderFile = File.createTempFile("lines", OcharenaSettings.OCH_HEADER_EXTENSION);
 			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(lineSegmentHeaderFile));
 			os.writeInt(linePaths.size());
+			// Write each PixelPath to the line header file
 			for (int i = 0; i < linePaths.size(); i++) {
 				os.writeChar(OCHFile.NEWLINE_CHAR);
 				os.writeChar(OCHFile.HYPHEN_CHAR);
 				os.writeChar(linePaths.getPath(i).getSerialFlag().getCharCode());
 				os.writeChar(OCHFile.SPACE_CHAR);
 				linePaths.getPath(i).writePixelPath(os);
+				/*
 				ImagePixels lineImage = ochDoc.getImagePixels().getRowsAsSubimage(linePaths.getPath(i).getYIndicies());
 				File lineFile = new File(OcharenaSettings.dataFolder + "lines" + File.separator + "line-" + i + ".jpg");
 				ImageIO.write(lineImage.getImageAsBufferedImage(), "jpg", lineFile);
+				*/
 			}
 			os.close();
-			ochDoc.archiveLines(lineDir);
+			//ochDoc.archiveLines(lineDir);
+			// Save the line header to the och archive
 			ochDoc.archiveLineHeader(lineSegmentHeaderFile);
 			lineSegmentHeaderFile.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		/*
 		for (String eachFile : lineDir.list()) {
 			File currentFile = new File(lineDir.getPath(), eachFile);
 			currentFile.delete();
 		}
 		lineDir.delete();
+		*/
 		BasicCharTracer charTracer = new BasicCharTracer(ochDoc);
+		// Dialog to specify training or not, NOT FULLY IMPLEMENTED YET
 		Object[] options = { "Guided Training", "Autodetect", "Autodetect From Now On" };
 		int continueProcess = JOptionPane.showOptionDialog(null, "How do you want to detect the characters?", "Character Processing", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
-		if (continueProcess == JOptionPane.YES_OPTION) { // Guided Training
-			//processLineGuided();
-		} else if (continueProcess == JOptionPane.NO_OPTION) { // Autodetect
+		if (continueProcess == JOptionPane.YES_OPTION) { // Guided Training - unimplemented
 			processLinesGuided();
+		} else if (continueProcess == JOptionPane.NO_OPTION) { // Autodetect
+			JOptionPane.showMessageDialog(null, "This feature hasn't been implemented!");
 		} else if (continueProcess == JOptionPane.CANCEL_OPTION) { // Autodetect permanently
-
+			JOptionPane.showMessageDialog(null, "This feature hasn't been implemented!");
 		}
 		JOptionPane.showMessageDialog(null, "Done!");
 	}
 
+	@Deprecated
+	/**
+	 * Archives individual character images
+	 * @param charPaths
+	 */
 	public void archiveChars(PathManager charPaths) {
 		File charDir = new File(OcharenaSettings.dataFolder + "chars" + File.separator);
 		charDir.mkdir();
@@ -184,12 +241,13 @@ public class GuiController {
 		charDir.delete();
 		JOptionPane.showMessageDialog(null, "Done!");
 	}
-	
+
+	/**
+	 * Process characters and output guess
+	 * @param charPaths
+	 */
 	public void guessChars(PathManager charPaths) {
 		String guesses = "";
-		System.out.println("Loading Neural Network...");
-		NeuralNetwork nnet = Ocharena.neuralNet;
-		nnet.learn(Ocharena.trainingSet);
 		for (int i = 0; i < charPaths.size(); i++) {
 			if (charPaths.getPath(i).getIsSpace()) {
 				System.out.println("Space detected!");
@@ -201,11 +259,11 @@ public class GuiController {
 			System.out.println("Height: " + ochDoc.getImagePixels().getImageHeight());
 			ImagePixels imagePixels = ochDoc.getImagePixels().getPixelsFromPixelPath(charPaths.getPath(i));
 			OchDataRow dataRow = new OchDataRow(imagePixels);
-			
+
 			System.out.println("Testing Neural Network...");
-			nnet.setInput(dataRow.getData());
-			nnet.calculate();
-			double[] output = nnet.getOutput();
+			Ocharena.neuralNet.setInput(dataRow.getData());
+			Ocharena.neuralNet.calculate();
+			double[] output = Ocharena.neuralNet.getOutput();
 			System.out.println("Output: " + Arrays.toString(output));
 			int bestGuess = 0;
 			for (int j = 1; j < output.length; j++) {
@@ -215,36 +273,36 @@ public class GuiController {
 				System.out.println("Best guess for " + i + " at " + output[bestGuess] * 100 + "% confidence: " + OcharenaSettings.SUPPORTED_CHARS.charAt(bestGuess));
 				guesses += OcharenaSettings.SUPPORTED_CHARS.charAt(bestGuess);
 			} else {
+				// Not very confident about this character
 				guesses += OcharenaSettings.SUPPORTED_CHARS.charAt(bestGuess);
-//				guesses += "_";
+				//				guesses += "_";
 			}
 		}
+		JOptionPane.showMessageDialog(null, "Here is my guess:\n" + guesses);
 		System.out.println("Here is my guess: \n" + guesses);
 	}
 
-	public void fftTransform(String imageFilename) {
-		ImagePixels pixels = new ImagePixels(imageFilename);
-		ochDoc = new OCHDocument(imageFilename, false);
+	/**
+	 * Generate a histogram overlay. For presentation purposes.
+	 * @param imageFilename
+	 */
+	public void generateHistogramOverlay(String imageFilename) {
+		LOG.entering(this.getClass().toString(), "generateHistogramOverlay(String imageFilename)");
 
-		BasicLineTracer lineTracer = new BasicLineTracer(imageFilename);
-		//lineTracer.extractLines();
+		ochDoc = new OCHDocument(imageFilename, false);
+		LineTracer lineTracer = new LineTracer(imageFilename);
 		try {
-			BufferedImage bimg = ImageIO.read(new File(imageFilename));
-			PannableImageFrame imgFrame = new PannableImageFrame("Line Selection", bimg);
-			imgFrame.setGuiController(this);
-			imgFrame.setDetectedLines(new DetectedLines(bimg.getWidth(), bimg.getHeight(), lineTracer.detectLines(ochDoc)));
-			imgFrame.setDisplayPathType(PathManagerType.DetectedLines);
-			imgFrame.setVisible(true);
-			int continueProcess = JOptionPane.showConfirmDialog(null, "Select Line To Segment?", "Continue Processing", JOptionPane.YES_NO_OPTION);
-			if (continueProcess == JOptionPane.YES_OPTION) {
-				imgFrame.setListenerState(ListenerState.SelectPath);
-			}
+			ImageIO.write(lineTracer.generateHistogramOverlay(), "jpg", new File(OcharenaSettings.dataFolder + "histogramOverlay.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	@Deprecated
+	/**
+	 * Perform a Hough Transformation to detect lines
+	 * @param imageFilename
+	 */
 	public void houghTransform(String imageFilename) {
 		DocumentMetadata metadata = new DocumentMetadata();
 		metadata.setBlueLinedPaper(true);
@@ -252,48 +310,57 @@ public class GuiController {
 		metadata.setWritingColor(Color.black);
 		metadata.setUniformBackgroundColor(false);
 		ImagePixels pixels = new ImagePixels(imageFilename, metadata);
-		ColorUtils.printRGBValues(pixels.getPixelValueByCoordinate(861, 66));
-		//pixels.prepareImage();
 		HTEngine htEngine = new HTEngine();
 		htEngine.setSourceImage(pixels.getImageAsBufferedImage());
 		ArrayList<EHTProcessStep> steps = new ArrayList<EHTProcessStep>();
-		//steps.add(EHTProcessStep.STEP_GRAYSCALE);
+		steps.add(EHTProcessStep.STEP_GRAYSCALE);
 		steps.add(EHTProcessStep.STEP_EDGE_DETECTION);
-		//steps.add(EHTProcessStep.STEP_EDGE_TRESHOLD);
-		//steps.add(EHTProcessStep.STEP_HOUGH_SPACE_TOP);
-		//steps.add(EHTProcessStep.STEP_HOUGH_SPACE_CENTER);
-		//steps.add(EHTProcessStep.STEP_HOUGH_SPACE_FILTERED);
+		steps.add(EHTProcessStep.STEP_EDGE_TRESHOLD);
+		steps.add(EHTProcessStep.STEP_HOUGH_SPACE_TOP);
+		steps.add(EHTProcessStep.STEP_HOUGH_SPACE_CENTER);
+		steps.add(EHTProcessStep.STEP_HOUGH_SPACE_FILTERED);
+		steps.add(EHTProcessStep.STEP_ORIGINAL_LINES_OVERLAYED);
 		HTImage resultImage = htEngine.getHTProcessSteps(steps);
 		ImagePixels pix = new ImagePixels(resultImage.getImage());
-
-		ColorUtils.printRGBValues(pix.getPixelValueByCoordinate(861, 66));
 		try {
 			File file = new File(OcharenaSettings.dataFolder + File.separator + "outputHough.jpg");
-			ImageIO.write(pixels.getImageAsBufferedImage(), "jpg", file);
-			invertImage(file.getAbsolutePath());
+			ImageIO.write(pix.getImageAsBufferedImage(), "jpg", file);
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOG.log(Level.SEVERE, null, e);
 		}
 
 		ImagePixels pxls = new ImagePixels(resultImage.getImage());
-		System.out.println("I'm Here!");
+		//System.out.println("I'm Here!");
 		ColorUtils.printRGBValues(resultImage.getImage().getRGB(861, 66));
 		//JophImgFrame tracedFrame = new JophImgFrame(resultImage.getImage());
-		PannableImageFrame tracedFrame = new PannableImageFrame("Traced Image", resultImage.getImage());
+		InteractiveImageFrame tracedFrame = new InteractiveImageFrame("Traced Image", resultImage.getImage());
 
 		tracedFrame.setVisible(true);
 	}
 
-	public void houghTransform2(String imageFilename) {
+	/**
+	 * Perform a Sobel edge detection. For presentation purposes.
+	 * @param imageFilename
+	 */
+	public void sobelEdge(String imageFilename) {
 		DocumentMetadata metadata = new DocumentMetadata();
 		metadata.setBlueLinedPaper(true);
 		metadata.setRedMarginPaper(true);
 		ImagePixels pixels = new ImagePixels(imageFilename, metadata);
-		pixels.prepareImage();
+		//		pixels.prepareImage();
+		HTEngine htEngine = new HTEngine();
+		htEngine.setSourceImage(pixels.getImageAsBufferedImage());
+		ArrayList<EHTProcessStep> steps = new ArrayList<EHTProcessStep>();
+		steps.add(EHTProcessStep.STEP_GRAYSCALE);
+		steps.add(EHTProcessStep.STEP_EDGE_DETECTION);
+		//steps.add(EHTProcessStep.STEP_EDGE_TRESHOLD);
+		HTImage resultImage = htEngine.getHTProcessSteps(steps);
+		ImagePixels pix = new ImagePixels(resultImage.getImage());
+		pix.invertColors();
 		try {
-			File file = new File(OcharenaSettings.dataFolder + File.separator + "outputFiltered.jpg");
-			ImageIO.write(pixels.getImageAsBufferedImage(), "png", file);
+			File file = new File(OcharenaSettings.dataFolder + File.separator + "outputSobel.jpg");
+			ImageIO.write(pix.getImageAsBufferedImage(), "png", file);
 			traceLines(file.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -305,60 +372,72 @@ public class GuiController {
 		//tracedFrame.showFrame();
 	}
 
-	public void invertImage(String imageFilename) {
-		ImagePixels pixels = new ImagePixels(imageFilename);
-		ColorUtils.printRGBValues(pixels.getPixelValueByCoordinate(861, 66));
-		pixels.invertColors();
-		ColorUtils.printRGBValues(pixels.getPixelValueByCoordinate(861, 66));
-		try {
-			File file = new File(OcharenaSettings.dataFolder + File.separator + "outputInverted.jpg");
-			ImageIO.write(pixels.getImageAsBufferedImage(), "jpg", file);
-			traceLines(file.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
-			LOG.log(Level.SEVERE, null, e);
-		}
-		//JophImgFrame tracedFrame = new JophImgFrame(pixels.getImageAsBufferedImage());
-
-		//tracedFrame.showFrame();
-	}
-
-	public void showGUI()
-	{
+	/**
+	 * Makes the frame visible
+	 */
+	public void showGUI() {
 		mainFrame.setVisible(true);
 	}
 
+	@Deprecated
+	// Never implemented
 	public void traceChars(File imageFile) {
 
 	}
 
+	@Deprecated
 	public void traceCharTest(LineSegmentedDocument lsDoc) {
 		LOG.entering(this.getClass().toString(), "traceCharTest()");
 
 		CharTracer ct = new CharTracer(lsDoc);
 	}
 
+	@Deprecated
 	public void traceLinesTest(String filename) {
 		LOG.entering(this.getClass().toString(), "traceLinesTest()");
 
 		doc = new ScannedDocument(filename);
 		LineTracer lt = new LineTracer(filename);
-		LineSegmentedDocument lsDoc = lt.getSegmentedDoc(doc);
-		lsDoc.archiveLineImgs();
-		//		BufferedImage img = null;
-		//		try {
-		//			img = lt.getTracedImage();
-		//		} catch (Exception e) {
-		//			e.printStackTrace();
-		//		}
-		//
+		//LineSegmentedDocument lsDoc = lt.getSegmentedDoc(doc);
+		//lsDoc.archiveLineImgs();
+//		BufferedImage img = null;
+//		try {
+//			img = lt.getTracedImage();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		try {
+			BufferedImage bimg = ImageIO.read(new File(filename));
+			InteractiveImageFrame imgFrame = new InteractiveImageFrame("Line Selection", bimg);
+			imgFrame.setGuiController(this);
+			long start = System.currentTimeMillis();
+			imgFrame.setDetectedLines(new DetectedLines(bimg.getWidth(), bimg.getHeight(), lt.segmentLines()));
+			long elapsed = System.currentTimeMillis() - start;
+			LOG.info("RMS Elapsed Processing Time: " + elapsed / 1000 + " seconds");
+			imgFrame.setDisplayPathType(PathManagerType.DetectedLines);
+			imgFrame.setVisible(true);
+			int continueProcess = JOptionPane.showConfirmDialog(null, "Select Line To Segment?", "Continue Processing", JOptionPane.YES_NO_OPTION);
+			if (continueProcess == JOptionPane.YES_OPTION) {
+				imgFrame.setListenerState(ListenerState.SelectPath);
+			} else {
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		//		JophImgFrame tracedFrame = new JophImgFrame(img);
 		//		tracedFrame.showFrame();
 
+		//		try {
+		//			ImageIO.write(lt.getTracedImage(), "jpg", new File(OcharenaSettings.dataFolder + "RMSTracedLines.jpg"));
+		//		} catch (IOException e) {
+		//			e.printStackTrace();
+		//		}
 		LOG.info("Done!");
 		LOG.exiting(this.getClass().toString(), "traceLinesTest()");
 	}
 
+	@Deprecated
 	public void traceLines(String filename) {
 		LOG.entering(this.getClass().toString(), "traceLines()");
 

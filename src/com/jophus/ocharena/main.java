@@ -23,13 +23,18 @@ import com.jophus.ocharena.image.ImagePixels;
 import com.jophus.ocharena.nn.OchDataRow;
 import com.jophus.ocharena.ochfile.LineSegmentHeader;
 
+/**
+ * Debug main Class. Only used for testing.
+ * @author Joe Snee
+ *
+ */
 public class main {
-
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		readLineHeader();
+		//System.out.println("\u202E" + "Blue text with yellow background");
+		//readLineHeader();
 		//saveNeuralNetwork();
 		//runProgrammaticPredictionTest();
 	}

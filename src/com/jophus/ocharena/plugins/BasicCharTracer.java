@@ -1,3 +1,9 @@
+// Copyright (c) 2003-2010 Ronald B. Cemer
+// Modified by William Whitney
+// Modified by Joseph Snee
+// All rights reserved.
+// This software is released under the BSD license.
+// Please see the accompanying LICENSE.txt for details.
 package com.jophus.ocharena.plugins;
 
 import java.util.ArrayList;
@@ -46,15 +52,24 @@ public class BasicCharTracer {
 		this.ochDoc = ochDoc;
 	}
 
+	/**
+	 * Detect characters in the document using the Cemer-Whitney algorithm
+	 * @return
+	 */
 	public PathManager detectChars() {
 		ImagePixels imagePixels = new ImagePixels(ochDoc.getImagePixels().getImageAsBufferedImage());
 		PathManager result = new PathManager(imagePixels.getImageWidth(), imagePixels.getImageHeight());
+		// Preprocess image
+		imagePixels.prepareImage();
 		imagePixels.toGrayScale(true);
 		imagePixels.filter();
+		// Load the detected lines
 		PathManager linePaths = ochDoc.loadImageHeader();
+		// Detect the characters in each line
 		for (int i = 0; i < linePaths.size(); i++) {
 			PathManager charPaths = detectChars(imagePixels, linePaths.getPath(i));
 			for (int j = 0; j < charPaths.size(); j++) {
+				// Skip detected characters that are less than 10 pixels wide - they're too short
 				if (charPaths.getPath(j).getBounds().width < 10) continue;
 				result.addPath(charPaths.getPath(j));
 			}
@@ -62,6 +77,12 @@ public class BasicCharTracer {
 		return result;
 	}
 
+	/**
+	 * Cemer-Whitney algorithm character identification
+	 * @param imagePixels
+	 * @param pixelPath
+	 * @return
+	 */
 	private PathManager detectChars(ImagePixels imagePixels, PixelPath pixelPath) {
 		int[] pixels = imagePixels.getPixelValues();
 		int w = imagePixels.getImageWidth();
@@ -211,6 +232,7 @@ public class BasicCharTracer {
 					int sx2 = Math.min(cx1 + minSpaceWidth, cx2);
 					RectPixelPath spacePixelPath = new RectPixelPath(cx1, y1, sx2 - cx1, y2 - y1);
 					spacePixelPath.setIsSpace(true);
+					// TODO add space
 					pathManager.addPath(spacePixelPath);
 					cx1 += minSpaceWidth;
 				}
@@ -263,10 +285,12 @@ public class BasicCharTracer {
 				// Everything is white in this cell.  Make it a space.
 				RectPixelPath spacePixelPath = new RectPixelPath(cx1, y1, cx2 - cx1, y2 - y1);
 				spacePixelPath.setIsSpace(true);
+				// TODO add space
 				pathManager.addPath(spacePixelPath);
 			}
 			else
 			{
+				// Character detected
 				pathManager.addPath(new RectPixelPath(cx1, y1, cx2 - cx1, y2 - y1));
 			}
 		}

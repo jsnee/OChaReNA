@@ -14,6 +14,13 @@ import com.jophus.ocharena.document.LineSegmentedDocument;
 import com.jophus.ocharena.document.OCHDocument;
 import com.jophus.ocharena.image.ImagePixels;
 
+@Deprecated
+/**
+ * CharTracer class. Testing class used to test various character isolation methods.
+ * @author Joe Snee
+ * deprecated. See BasicCharTracer
+ *
+ */
 public class CharTracer {
 
 	private static final Logger LOG = Logger.getLogger(CharTracer.class.getName());

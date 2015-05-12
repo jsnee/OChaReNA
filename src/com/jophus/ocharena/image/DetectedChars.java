@@ -4,6 +4,11 @@ import com.jophus.ocharena.document.OCHDocument;
 import com.jophus.ocharena.image.path.PathManager;
 import com.jophus.ocharena.image.path.PixelPath;
 
+/**
+ * Container class for detected character paths.
+ * @author Joe Snee
+ *
+ */
 public class DetectedChars {
 
 	private PathManager pathManager;

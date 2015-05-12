@@ -17,6 +17,11 @@ import org.apache.commons.io.LineIterator;
 import com.jophus.ocharena.OcharenaSettings;
 import com.jophus.ocharena.document.OCHFile;
 
+/**
+ * MasterSegmentHeader class. Manipulates the master segment header file.
+ * @author Joe Snee
+ *
+ */
 public class MasterSegmentHeader {
 	private static final Logger logger = Logger.getLogger(MasterSegmentHeader.class.getName());
 
@@ -30,14 +35,23 @@ public class MasterSegmentHeader {
 	private int originalImageWidth;
 	private int originalImageHeight;
 
+	/**
+	 * Constructor to load master segment header from archive
+	 * @param ochFile
+	 */
 	public MasterSegmentHeader(File ochFile) {
 		readMasterHeader(ochFile);
 	}
 
+	/**
+	 * Read master header from the och archive
+	 * @param ochFile
+	 */
 	private void readMasterHeader(File ochFile) {
 		try {
 			ZipFile ochArchive = new ZipFile(ochFile);
 
+			// Loop through all of the entries, skipping them if not the master header file
 			for (Enumeration<ZipArchiveEntry> entries = ochArchive.getEntries(); entries.hasMoreElements();) {
 
 				ZipArchiveEntry archiveEntry = entries.nextElement();
@@ -47,6 +61,7 @@ public class MasterSegmentHeader {
 				String eachLine;
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				// Read the stored data
 				while ((eachLine = br.readLine()) != null) {
 					if (eachLine.isEmpty()) {
 						continue;
@@ -71,18 +86,33 @@ public class MasterSegmentHeader {
 		}
 	}
 	
+	/**
+	 * Gets the original image filename
+	 * @return
+	 */
 	public String getOriginalImageFilename() {
 		return originalImageFilename;
 	}
 	
+	/**
+	 * Gets the original image width
+	 * @return
+	 */
 	public int getOriginalImageWidth() {
 		return originalImageWidth;
 	}
 	
+	/**
+	 * Gets the original image height
+	 * @return
+	 */
 	public int getOriginalImageHeight() {
 		return originalImageHeight;
 	}
 
+	/**
+	 * Debugging use. Prints header values to console.
+	 */
 	public void printVals() {
 		System.out.println("Filename: " + originalImageFilename);
 		System.out.println("\tDimensions: [" + originalImageWidth + ", " + originalImageHeight + "]");

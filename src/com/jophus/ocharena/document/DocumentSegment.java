@@ -5,6 +5,12 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 
+@Deprecated
+/**
+ * DocumentSegment class. Defines a region of interest from the document
+ * @author Joe Snee
+ * deprecated. See PixelPath
+ */
 public class DocumentSegment {
 	
 	private Polygon segment;

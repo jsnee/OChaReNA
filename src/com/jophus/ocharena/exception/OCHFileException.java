@@ -1,10 +1,11 @@
 package com.jophus.ocharena.exception;
 
+/**
+ * Custom FileException
+ * @author Joe Snee
+ * unused.
+ */
 public class OCHFileException extends Exception {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private String message = null;

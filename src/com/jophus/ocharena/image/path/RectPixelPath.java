@@ -10,16 +10,33 @@ import java.io.ObjectOutputStream;
 
 import com.jophus.util.JophRectFrame;
 
+/**
+ * Rectangular PixelPath class.
+ * @author Joe Snee
+ *
+ */
 public class RectPixelPath extends PixelPath {
 
+	// The rectangular path
 	private Rectangle path;
 
+	/**
+	 * Standard Rectangle Constructor
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public RectPixelPath(int x, int y, int width, int height) {
 		this.path = new Rectangle(x, y, width, height);
 		this.x = x;
 		this.y = y;
 	}
 	
+	/**
+	 * Constructor using Rectangle
+	 * @param bounds
+	 */
 	public RectPixelPath(Rectangle bounds) {
 		this.x = bounds.x;
 		this.y = bounds.y;
@@ -44,10 +61,18 @@ public class RectPixelPath extends PixelPath {
 		return path.width * path.height;
 	}
 
+	/**
+	 * Gets the location of the PixelPath
+	 * @return
+	 */
 	public Point getLocation() {
 		return path.getLocation();
 	}
 
+	/**
+	 * Gets the center of the PixelPath
+	 * @return
+	 */
 	public Point getCenter() {
 		return new Point((int)path.getCenterX(), (int)path.getCenterY());
 	}
@@ -59,6 +84,7 @@ public class RectPixelPath extends PixelPath {
 		y = path.y;
 	}
 
+	@Deprecated
 	public void makePathFrame(int lineWeight) {
 		path = new JophRectFrame(path, lineWeight);
 	}

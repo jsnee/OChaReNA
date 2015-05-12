@@ -1,0 +1,14 @@
+May 12, 2015 4:51:44 AM class com.jophus.ocharena.gui.GuiController processImageGuided()
+FINER: ENTRY
+May 12, 2015 4:51:53 AM com.jophus.ocharena.gui.GuiController processImageGuided
+INFO: Line Histogram Elapsed Processing Time: 3 seconds
+May 12, 2015 4:52:27 AM com.jophus.ocharena.document.OCHFile unzipEntry
+FINER: Extracting; Scanned from a Xerox multifunction device.pdf5518631712088153880.jpeg
+May 12, 2015 4:52:27 AM com.jophus.ocharena.document.OCHFile unzipEntry
+FINER: Extracting; master.ochh
+May 12, 2015 4:52:27 AM com.jophus.ocharena.document.OCHFile addFileToArchive
+FINER: Writing file to archive: master.ochh
+May 12, 2015 4:52:27 AM com.jophus.ocharena.document.OCHFile addFileToArchive
+FINER: Writing file to archive: Scanned from a Xerox multifunction device.pdf5518631712088153880.jpeg
+May 12, 2015 4:52:27 AM com.jophus.ocharena.document.OCHFile addFileToArchive
+FINER: Writing file to archive: lines5578403922173534560.ochh

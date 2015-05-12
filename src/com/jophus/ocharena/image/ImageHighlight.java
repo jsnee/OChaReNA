@@ -3,6 +3,12 @@ package com.jophus.ocharena.image;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+@Deprecated
+/**
+ * ImageHighlight class. Outlines where detected lines and characters were found.
+ * @author Joe Snee
+ * deprecated. See PixelPath.draw(Graphics g)
+ */
 public class ImageHighlight {
 
 	private ImagePixels img;

@@ -24,6 +24,12 @@ import com.jophus.ocharena.image.ImagePixels;
 import com.jophus.util.JophFileUtils;
 import com.jophus.util.JophIOUtils;
 
+@Deprecated
+/**
+ * Document class
+ * @author Joe Snee
+ * deprecated. See OCHDocument
+ */
 public class ScannedDocument {
 
 	private ImagePixels documentPixelData;
@@ -85,7 +91,7 @@ public class ScannedDocument {
 	}
 
 	private static String getRelativePathnameWithExtension(String filename) {
-		return OcharenaSettings.defaultWorkingDirectoryPath + filename + OcharenaSettings.ARCHIVE_FILETYPE_EXTENSION;
+		return OcharenaSettings.ochFolder + filename + OcharenaSettings.ARCHIVE_FILETYPE_EXTENSION;
 	}
 
 	private void zipArchiveOriginalDocumentImage(File originalImageFile) throws IOException {

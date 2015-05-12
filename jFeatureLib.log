@@ -1,0 +1,208 @@
+0    WARN  [Finalizer]     org.apache.pdfbox.cos.COSDocument     - Warning: You did not close a PDF Document
+0    WARN  [Finalizer]     org.apache.pdfbox.cos.COSDocument     - Warning: You did not close a PDF Document
+307  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+308  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+308  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+308  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+308  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+308  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+309  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+309  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+309  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+310  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+310  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+310  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+414  WARN  [Finalizer]     org.apache.pdfbox.cos.COSDocument     - Warning: You did not close a PDF Document
+658  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+658  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+658  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+660  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+660  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+661  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+661  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+661  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+661  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+661  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+662  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+662  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+705  WARN  [Finalizer]     org.apache.pdfbox.cos.COSDocument     - Warning: You did not close a PDF Document
+706  WARN  [Finalizer]     org.apache.pdfbox.cos.COSDocument     - Warning: You did not close a PDF Document
+0    WARN  [Finalizer]     org.apache.pdfbox.cos.COSDocument     - Warning: You did not close a PDF Document
+269  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+270  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+270  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+270  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+270  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+270  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+271  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+271  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+271  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+272  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+272  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+272  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+588  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+588  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+588  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+589  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+589  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+589  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+589  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+590  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+590  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+590  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+590  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+590  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+637  WARN  [Finalizer]     org.apache.pdfbox.cos.COSDocument     - Warning: You did not close a PDF Document
+0    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+2    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+2    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+2    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+2    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+2    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+3    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+3    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+3    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+4    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+4    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+4    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+303  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+303  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+304  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+304  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+304  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+304  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+304  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+305  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+305  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+305  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+305  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+305  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+0    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+2    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+2    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+2    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+2    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+2    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+3    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+3    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+3    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+4    ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+4    ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+4    WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+328  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+328  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+328  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+328  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+329  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+329  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+329  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+329  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+329  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+329  ERROR [AWT-EventQueue-0]  org.apache.pdfbox.filter.JBIG2Filter     - Can't find an ImageIO plugin to decode the JBIG2 encoded datastream.
+330  ERROR [AWT-EventQueue-0] org.apache.pdfbox.pdmodel.graphics.xobject.PDPixelMap     - Something went wrong ... the pixelmap doesn't contain any data.
+330  WARN  [AWT-EventQueue-0] org.apache.pdfbox.util.operator.pagedrawer.Invoke     - getRGBImage returned NULL
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+113  INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+114  INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+2344 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2344 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2344 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+2443 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+2444 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+89   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+89   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+2192 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2192 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2192 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+2290 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+2291 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+89   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+90   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+2208 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2208 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2208 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+2306 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+2306 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+90   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+90   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+92   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+92   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+92   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+93   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+97   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+97   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+111  INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+111  INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+89   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+89   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+91   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+91   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+153948 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+153948 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+153948 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+154036 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+154036 INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+96   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+89   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+89   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+1    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+94   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+95   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1
+0    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - GPL Ghostscript 9.16 (2015-03-30)
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Copyright (C) 2015 Artifex Software, Inc.  All rights reserved.
+2    INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - This software comes with NO WARRANTY: see the file PUBLIC for details.
+93   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Processing pages 1 through 1.
+94   INFO  [AWT-EventQueue-0]               org.ghost4j.Ghostscript     - Page 1

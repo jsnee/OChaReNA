@@ -16,8 +16,19 @@ import com.jophus.ocharena.image.ImagePixels;
 import com.jophus.ocharena.image.path.PixelPath;
 import com.jophus.ocharena.nn.OchDataRow;
 
+/**
+ * Factory class for reading and generating Neural Net data from various sources.
+ * @author Joe Snee
+ *
+ */
 public class OchDataFactory {
 
+	/**
+	 * Generate dataset from a .csv file
+	 * @param filename
+	 * @param hasHeaders the first row contains column headers
+	 * @return the generated dataset
+	 */
 	public static DataSet readCsvTrainData(String filename, boolean hasHeaders) {
 		File dataFile = new File(filename);
 
@@ -43,6 +54,13 @@ public class OchDataFactory {
 		return trainingSet;
 	}
 	
+	/**
+	 * Generates a dataset from detected characters
+	 * @param imagePixels the original image
+	 * @param pixelPath the character path
+	 * @param expectedCharacter
+	 * @return the generated dataset
+	 */
 	public static DataSet loadPixelPathTrainData(ImagePixels imagePixels, PixelPath pixelPath, char expectedCharacter) {
 		DataSet trainingSet = new DataSet(OcharenaSettings.NUM_ATTRIBUTES, OcharenaSettings.SUPPORTED_CHARS.length()); 
 		
@@ -51,14 +69,21 @@ public class OchDataFactory {
 		return trainingSet;
 	}
 	
+	/**
+	 * Bulk training method. All character images should be in a directory, with the first letter of their filename being the expected character  
+	 * @param imageDirectory
+	 * @return the generated dataset
+	 */
 	public static DataSet loadImageTrainingData(String imageDirectory) {
 		File srcImg = new File(imageDirectory);
 		if (!srcImg.isDirectory()) return null;
-		DataSet trainingSet = new DataSet(OcharenaSettings.NUM_ATTRIBUTES, OcharenaSettings.SUPPORTED_CHARS.length()); 
+		DataSet trainingSet = new DataSet(OcharenaSettings.NUM_ATTRIBUTES, OcharenaSettings.SUPPORTED_CHARS.length());
+		// Loop through each file in the directory
 		for (String eachFileName : srcImg.list()) {
 			
 			System.out.println("Extracting Image Features From: " + eachFileName);
 			ImagePixels imagePixels = new ImagePixels(imageDirectory + File.separator + eachFileName);
+			// Add image as new data row; expected character as the first character in the filename
 			OchDataRow dataRow = new OchDataRow(imagePixels, eachFileName.charAt(0));
 			
 			trainingSet.addRow(dataRow.getData(), dataRow.getExpectedOutputArray());
@@ -66,6 +91,10 @@ public class OchDataFactory {
 		return trainingSet;
 	}
 
+	/**
+	 * Generate a new Multilayer Perceptron
+	 * @return the generated perceptron
+	 */
 	public static MultiLayerPerceptron initializeNewMlp() {
 		List<Integer> layerNeurons = new ArrayList<Integer>();
 		layerNeurons.add(OcharenaSettings.NUM_ATTRIBUTES);

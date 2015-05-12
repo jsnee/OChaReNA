@@ -1,5 +1,10 @@
 package com.jophus.ocharena.image;
 
+/**
+ * HSVColor class. Representation of color in the HSV color space
+ * @author Joe Snee
+ *
+ */
 public class HSVColor {
 	private int hue;
 	private float saturation;

@@ -2,6 +2,11 @@ package com.jophus.ocharena.document;
 
 import java.awt.Dimension;
 
+/**
+ * OCHMetadata class. Contains metadata about the document
+ * @author Joe Snee
+ *
+ */
 public class OCHMetadata {
 	
 	private String archiveFilepath;

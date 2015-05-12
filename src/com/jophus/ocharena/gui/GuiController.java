@@ -111,11 +111,11 @@ public class GuiController {
 			long start = System.currentTimeMillis();
 			// Detect the lines and set them in the Image Frame
 			imgFrame.setDetectedLines(new DetectedLines(bimg.getWidth(), bimg.getHeight(), lineTracer.detectLines(ochDoc)));
-			
+
 			// Benchmarking stats
 			long elapsed = System.currentTimeMillis() - start;
 			LOG.info("Line Histogram Elapsed Processing Time: " + elapsed / 1000 + " seconds");
-			
+
 			imgFrame.setDisplayPathType(PathManagerType.DetectedLines);
 			imgFrame.setVisible(true);
 			// Prompt user for continuation
@@ -139,7 +139,7 @@ public class GuiController {
 		// Detect the characters
 		PathManager charPaths = charTracer.detectChars();
 		BufferedImage bimg = ochDoc.getImagePixels().getImageAsBufferedImage();
-		
+
 		// Display document with characters outlined
 		InteractiveImageFrame imgFrame = new InteractiveImageFrame("Character Selection", bimg);
 		imgFrame.setGuiController(this);
@@ -184,7 +184,7 @@ public class GuiController {
 				ImagePixels lineImage = ochDoc.getImagePixels().getRowsAsSubimage(linePaths.getPath(i).getYIndicies());
 				File lineFile = new File(OcharenaSettings.dataFolder + "lines" + File.separator + "line-" + i + ".jpg");
 				ImageIO.write(lineImage.getImageAsBufferedImage(), "jpg", lineFile);
-				*/
+				 */
 			}
 			os.close();
 			//ochDoc.archiveLines(lineDir);
@@ -200,17 +200,20 @@ public class GuiController {
 			currentFile.delete();
 		}
 		lineDir.delete();
-		*/
+		 */
 		BasicCharTracer charTracer = new BasicCharTracer(ochDoc);
 		// Dialog to specify training or not, NOT FULLY IMPLEMENTED YET
 		Object[] options = { "Guided Training", "Autodetect", "Autodetect From Now On" };
-		int continueProcess = JOptionPane.showOptionDialog(null, "How do you want to detect the characters?", "Character Processing", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
-		if (continueProcess == JOptionPane.YES_OPTION) { // Guided Training - unimplemented
-			processLinesGuided();
-		} else if (continueProcess == JOptionPane.NO_OPTION) { // Autodetect
-			JOptionPane.showMessageDialog(null, "This feature hasn't been implemented!");
-		} else if (continueProcess == JOptionPane.CANCEL_OPTION) { // Autodetect permanently
-			JOptionPane.showMessageDialog(null, "This feature hasn't been implemented!");
+		while (true) {
+			int continueProcess = JOptionPane.showOptionDialog(null, "How do you want to detect the characters?", "Character Processing", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+			if (continueProcess == JOptionPane.YES_OPTION) { // Guided Training - unimplemented
+				processLinesGuided();
+				break;
+			} else if (continueProcess == JOptionPane.NO_OPTION) { // Autodetect
+				JOptionPane.showMessageDialog(null, "This feature hasn't been implemented!");
+			} else if (continueProcess == JOptionPane.CANCEL_OPTION) { // Autodetect permanently
+				JOptionPane.showMessageDialog(null, "This feature hasn't been implemented!");
+			}
 		}
 		JOptionPane.showMessageDialog(null, "Done!");
 	}
@@ -400,12 +403,12 @@ public class GuiController {
 		LineTracer lt = new LineTracer(filename);
 		//LineSegmentedDocument lsDoc = lt.getSegmentedDoc(doc);
 		//lsDoc.archiveLineImgs();
-//		BufferedImage img = null;
-//		try {
-//			img = lt.getTracedImage();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		//		BufferedImage img = null;
+		//		try {
+		//			img = lt.getTracedImage();
+		//		} catch (Exception e) {
+		//			e.printStackTrace();
+		//		}
 		try {
 			BufferedImage bimg = ImageIO.read(new File(filename));
 			InteractiveImageFrame imgFrame = new InteractiveImageFrame("Line Selection", bimg);

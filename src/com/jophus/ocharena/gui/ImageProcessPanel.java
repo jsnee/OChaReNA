@@ -143,7 +143,8 @@ public class ImageProcessPanel extends JPanel {
 					if (selectedFile.endsWith(".pdf") || selectedFile.endsWith(".PDF")) {
 						selectedFile = convertFromPdf();
 					}
-					guiController.processImage(selectedFile);
+					JOptionPane.showMessageDialog(null, "This Feature hasn't been finished yet!");
+					//guiController.processImage(selectedFile);
 					JOptionPane.showMessageDialog(null, "Done!");
 				}
 			}
